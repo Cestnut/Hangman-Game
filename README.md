@@ -25,4 +25,4 @@ Ogni giocatore ha un profilo in cui sono visibili le seguenti informazioni:
 Saranno implementate REST API per interagire con le seguenti risorse:
 - **Utenti**
 - **Partite**
-- **Lista parole** 
+- **Lista parole** yessir 
