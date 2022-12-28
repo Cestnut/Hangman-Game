@@ -30,11 +30,68 @@ Saranno implementate REST API per interagire con le seguenti risorse:
 Verrà ora specificato come si svolgono le partite. Al termine della partita viene mostrato quale fosse la parola giusta.
 
 ## 3.1 Cooperativa
-### 3.1.1 Svolgimento
 Viene scelto l'ordine dei giocatori, che a ogni turno provano a indovinare la parola. In caso sia sbagliata viene persa una vita per tutti. Se il turno scade semplicemente si passa al giocatore successivo.
 
 ## 3.2 Competitiva
-### 3.2.1 Svolgimento
 Ogni giocatore prova a indovinare la parola singolarmente, senza vedere il progresso degli altri. Se finisce le vite o scade il tempo, perde.
 
 Al termine della partita, viene mostrata una classifica in base a chi ha indovinato per primo.
+
+# 4 Database
+Il gioco si basa su un database SQL per salvare i dati. Di seguito verranno mostrati il diagramma ER e lo schema relazionale.
+## 4.1 Diagramma ER
+
+![ER_Diagram](ER_Diagram.png)
+
+## 4.2 Schema Relazionale
+## 4.2.1 Word
+- ID_word (chiave primaria)
+- word (30 caratteri)
+- language (15 caratteri)
+
+## 4.2.2 Mode
+- name (chiave primaria, 15 caratteri)
+
+## 4.2.3 User	
+- ID_user (chiave primaria)
+- name (unico, 15 caratteri)
+- password	
+
+## 4.2.4 Room
+- ID_room (chiave primaria)
+- name (32 caratteri)
+- password
+- max_player (maggiore di 0)
+- ID_host (chiave esterna in User)
+
+## 4.2.5 Game
+- ID_game (chiave primaria)
+- max_time (maggiore di 0)
+- max_lives (maggiore di 0)
+- gamemode (chiave esterna in mode)
+- ID_room (chiave esterna in room)
+- ID_word (chiave esterna in word)
+
+## 4.2.6 Message
+- ID_message (chiave primaria)
+- message (128 caratteri)
+- timestamp
+- ID_user (chiave esterna in user)
+- ID_room (chiave esterna in room)
+
+## 4.2.7 Game_Participation
+- ID_game_participation (chiave primaria)
+- ID_game (chiave esterna in game)
+- ID_user (chiave esterna in user)
+
+## 4.2.8 Room_Partecipation
+- ID_room (chiave esterna in room)
+- ID_user (chiave esterna in user)
+
+ID_room e ID_user compongono la chiave primaria
+
+## 4.2.9 Guess:
+- ID_Guess (chiave primaria)
+- word (30 caratteri)
+- timestamp
+- ID_game_participation (chiave esterna in game_participation)
