@@ -93,3 +93,15 @@ ID_room e ID_user compongono la chiave primaria
 - word (30 caratteri)
 - timestamp
 - ID_game_participation (chiave esterna in game_participation)
+
+# 5 Applicazione
+## 5.1 Tecnologie
+Per la realizzazione dell'applicazione sono stati usati HTML, CSS, PHP, Javascript (utilizzando anche la libreria jQuery in particolar modo per le chiamate Ajax).
+Client e server comunicano tramite chiamate Ajax. In alcuni casi è necessario ci sia uno stream tra client e server per sincronizzare i client, per far ciò si utilizzano i Server Side Events (SSE).
+## 5.2 Pagine
+In questa sezione verranno illustrate tutte le pagine web che compongono il sito e il loro funzionamento
+### 5.2.1 Login
+### 5.2.2 Signup
+### 5.2.3 userHome
+### 5.2.4 roomList
+### 5.2.5 createRoom
