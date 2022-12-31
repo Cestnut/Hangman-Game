@@ -11,7 +11,6 @@ Sono previste le seguenti modalità di gioco:
 ### 1.2.1 Gestione
 Ogni utente al menù principale ha la possibilità di creare una stanza o unirsi a una già esistente. Alla creazione di una stanza l'utente deve fornire:
 - nome stanza (suggerito nomeutente's room)
-- password (facoltativa)
 - numero massimo di giocatori
 - modalità di gioco
 - tempo massimo di ogni giocatore
@@ -60,7 +59,6 @@ Il gioco si basa su un database SQL per salvare i dati. Di seguito verranno most
 ## 4.2.4 Room
 - ID_room (chiave primaria)
 - name (32 caratteri)
-- password
 - max_player (maggiore di 0)
 - ID_host (chiave esterna in User)
 
