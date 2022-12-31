@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
+    <script src="../javascript/signup.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/general.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <form name="signupForm" id="signupForm">
+        
+        <div id="username">
+            <label for="username">Username</label>
+            <input type="text" name="username">
+            <div id="usernameErrors" class="error"></div>
+        </div>
+        
+        <div id="password">
+            <div>
+                <label for="password">Password</label>
+                <input type="password" name="password">
+            </div>
+                
+            <div>
+                <label for="confirmPassword">Conferma Password</label>
+                <input type="password" name="confirmPassword">
+            </div>
+            <div id="passwordErrors" class="error"></div>
+        </div>
+
+        <button type="button" id="signupButton">Registrati</button>
+
+        <div>
+            <a href="../html/login.html">Effettua il login</a>
+        </div>
+
+    </form>
+</body>
+</html>
