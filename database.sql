@@ -94,7 +94,6 @@ CREATE TABLE `mode` (
 CREATE TABLE `room` (
   `ID_room` int(11) NOT NULL,
   `name` varchar(32) NOT NULL,
-  `password` varchar(15) DEFAULT NULL,
   `max_player` tinyint(11) UNSIGNED NOT NULL,
   `ID_host` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
