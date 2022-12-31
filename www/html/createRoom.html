@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
+    <script src="../javascript/createRoom.js"></script>
+    <title>Create Room</title>
+</head>
+<body>
+    <form name="createRoomForm" id="createRoomForm">
+        
+        <div id="name">
+            <label for="name">Room's Name</label>
+            <input type="text" name="name">
+            <div id="nameErrors" class="error"></div>
+        </div>
+        
+
+        <div id="maxPlayers">
+            <label for="maxPlayers">Max Players</label>
+            <input type="text" name="maxPlayers" id="maxPlayersField" pattern = "^[1-9]+[0-9]*$">
+        </div>
+        
+
+        <div id="maxTime">
+            <label for="maxTime">Max Time (in seconds)</label>
+            <input type="text" name="maxTime" id="maxTimeField" pattern = "^[1-9]+[0-9]*$">
+        </div>
+                
+        <div>
+            <label for="lives">Lives</label>
+            <input type="text" name="lives" id="livesField" pattern = "^[1-9]+[0-9]*$">
+        </div>
+
+
+        <input type="submit" id="signupButton" value="Crea">
+
+        <div>
+            <a href="../html/login.html">Effettua il login</a>
+        </div>
+
+    </form>
+</body>
+</html>
