@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Dic 28, 2022 alle 14:49
+-- Creato il: Gen 02, 2023 alle 19:02
 -- Versione del server: 10.4.27-MariaDB
 -- Versione PHP: 8.1.12
 
@@ -31,9 +31,9 @@ CREATE TABLE `game` (
   `ID_game` int(11) NOT NULL,
   `max_time` tinyint(11) UNSIGNED NOT NULL,
   `max_lives` tinyint(11) UNSIGNED NOT NULL,
-  `gamemode` varchar(15) NOT NULL,
   `ID_room` int(11) NOT NULL,
-  `ID_word` int(11) NOT NULL
+  `ID_word` int(11) NOT NULL,
+  `endTimestamp` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -78,12 +78,20 @@ CREATE TABLE `message` (
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `mode`
+-- Struttura della tabella `role`
 --
 
-CREATE TABLE `mode` (
-  `name` varchar(15) NOT NULL
+CREATE TABLE `role` (
+  `name` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `role`
+--
+
+INSERT INTO `role` (`name`) VALUES
+('admin'),
+('user');
 
 -- --------------------------------------------------------
 
@@ -94,7 +102,6 @@ CREATE TABLE `mode` (
 CREATE TABLE `room` (
   `ID_room` int(11) NOT NULL,
   `name` varchar(32) NOT NULL,
-  `max_player` tinyint(11) UNSIGNED NOT NULL,
   `ID_host` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -118,7 +125,8 @@ CREATE TABLE `room_partecipation` (
 CREATE TABLE `user` (
   `ID_user` int(11) NOT NULL,
   `username` varchar(15) NOT NULL,
-  `password` varchar(64) NOT NULL
+  `password` varchar(64) NOT NULL,
+  `role` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -143,8 +151,7 @@ CREATE TABLE `word` (
 ALTER TABLE `game`
   ADD PRIMARY KEY (`ID_game`),
   ADD KEY `ID_room` (`ID_room`),
-  ADD KEY `ID_word` (`ID_word`),
-  ADD KEY `gamemode` (`gamemode`);
+  ADD KEY `ID_word` (`ID_word`);
 
 --
 -- Indici per le tabelle `game_partecipation`
@@ -170,9 +177,9 @@ ALTER TABLE `message`
   ADD KEY `ID_room` (`ID_room`);
 
 --
--- Indici per le tabelle `mode`
+-- Indici per le tabelle `role`
 --
-ALTER TABLE `mode`
+ALTER TABLE `role`
   ADD PRIMARY KEY (`name`);
 
 --
@@ -195,7 +202,8 @@ ALTER TABLE `room_partecipation`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`ID_user`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD UNIQUE KEY `username` (`username`),
+  ADD KEY `role` (`role`);
 
 --
 -- Indici per le tabelle `word`
@@ -258,8 +266,7 @@ ALTER TABLE `word`
 --
 ALTER TABLE `game`
   ADD CONSTRAINT `game_ibfk_1` FOREIGN KEY (`ID_room`) REFERENCES `room` (`ID_room`),
-  ADD CONSTRAINT `game_ibfk_2` FOREIGN KEY (`ID_word`) REFERENCES `word` (`ID_word`),
-  ADD CONSTRAINT `game_ibfk_3` FOREIGN KEY (`gamemode`) REFERENCES `mode` (`name`);
+  ADD CONSTRAINT `game_ibfk_2` FOREIGN KEY (`ID_word`) REFERENCES `word` (`ID_word`);
 
 --
 -- Limiti per la tabella `game_partecipation`
@@ -294,6 +301,16 @@ ALTER TABLE `room_partecipation`
   ADD CONSTRAINT `room_partecipation_ibfk_1` FOREIGN KEY (`ID_user`) REFERENCES `user` (`ID_user`),
   ADD CONSTRAINT `room_partecipation_ibfk_2` FOREIGN KEY (`ID_room`) REFERENCES `room` (`ID_room`),
   ADD CONSTRAINT `room_partecipation_ibfk_3` FOREIGN KEY (`ID_room`) REFERENCES `room` (`ID_room`);
+
+--
+-- Limiti per la tabella `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`role`) REFERENCES `role` (`name`),
+  ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`role`) REFERENCES `role` (`name`),
+  ADD CONSTRAINT `user_ibfk_3` FOREIGN KEY (`role`) REFERENCES `role` (`name`),
+  ADD CONSTRAINT `user_ibfk_4` FOREIGN KEY (`role`) REFERENCES `role` (`name`),
+  ADD CONSTRAINT `user_ibfk_5` FOREIGN KEY (`role`) REFERENCES `role` (`name`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
