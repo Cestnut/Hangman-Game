@@ -3,19 +3,15 @@
 Il progetto si basa sul gioco dell'impiccato, in cui i giocatori hanno un certo numero di tentativi per indovinare una parola scelta dal server da una lista predefinita, e per ogni tentativo gli viene indicato quanto vicini o meno erano alla soluzione.
 
 ## 1.1 Modalità di gioco
-Sono previste le seguenti modalità di gioco:
-- **Cooperativa**, i giocatori hanno vite condivise, ricevono gli stessi indizi e a turno provano a indovinare la parola. Ogni turno ha una durata limitata.
-- **Competitiva**, i giocatori devono indovinare la stessa parola ma sono isolati tra di loro. Una volta che tutti hanno finito viene stilata una classifica. Ogni giocatore ha tempo limitato per indovinare.
+I giocatori hanno vite condivise, ricevono gli stessi indizi e a turno provano a indovinare la parola. Ogni turno ha una durata limitata.
 
 ## 1.2 Stanze
 ### 1.2.1 Gestione
 Ogni utente al menù principale ha la possibilità di creare una stanza o unirsi a una già esistente. Alla creazione di una stanza l'utente deve fornire:
 - nome stanza (suggerito nomeutente's room)
-- numero massimo di giocatori
 
-Il creatore di una stanza all'interno della stanza deve fornire:
-- modalità di gioco
-- tempo massimo di ogni giocatore
+Il creatore di una stanza all'interno della stanza, prima di iniziare una partita deve fornire:
+- tempo massimo dper il turno di ogni giocatore
 - vite massime
 
 Può premere il pulsanto di avvio per far iniziare la partita.
@@ -34,15 +30,8 @@ Saranno implementate REST API per interagire con le seguenti risorse:
 - **Lista parole**
 
 # 3 Gioco
-Verrà ora specificato come si svolgono le partite. Al termine della partita viene mostrato quale fosse la parola giusta.
-
-## 3.1 Cooperativa
 Viene scelto l'ordine dei giocatori, che a ogni turno provano a indovinare la parola. In caso sia sbagliata viene persa una vita per tutti. Se il turno scade semplicemente si passa al giocatore successivo.
 
-## 3.2 Competitiva
-Ogni giocatore prova a indovinare la parola singolarmente, senza vedere il progresso degli altri. Se finisce le vite o scade il tempo, perde.
-
-Al termine della partita, viene mostrata una classifica in base a chi ha indovinato per primo.
 
 # 4 Database
 Il gioco si basa su un database SQL per salvare i dati. Di seguito verranno mostrati il diagramma ER e lo schema relazionale.
@@ -56,27 +45,27 @@ Il gioco si basa su un database SQL per salvare i dati. Di seguito verranno most
 - word (30 caratteri)
 - language (15 caratteri)
 
-## 4.2.2 Mode
-- name (chiave primaria, 15 caratteri)
+## 4.2.2 Role
+- name (chiave primaria)
 
 ## 4.2.3 User	
 - ID_user (chiave primaria)
 - name (unico, 15 caratteri)
-- password	
+- password
+- role (chiave esterna in Role)
 
 ## 4.2.4 Room
 - ID_room (chiave primaria)
 - name (32 caratteri)
-- max_player (maggiore di 0)
 - ID_host (chiave esterna in User)
 
 ## 4.2.5 Game
 - ID_game (chiave primaria)
 - max_time (maggiore di 0)
 - max_lives (maggiore di 0)
-- gamemode (chiave esterna in mode)
 - ID_room (chiave esterna in room)
 - ID_word (chiave esterna in word)
+- finishTimestamp (default NULL)
 
 ## 4.2.6 Message
 - ID_message (chiave primaria)
