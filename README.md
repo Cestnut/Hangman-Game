@@ -12,17 +12,25 @@ Sono previste le seguenti modalità di gioco:
 Ogni utente al menù principale ha la possibilità di creare una stanza o unirsi a una già esistente. Alla creazione di una stanza l'utente deve fornire:
 - nome stanza (suggerito nomeutente's room)
 - numero massimo di giocatori
+
+Il creatore di una stanza all'interno della stanza deve fornire:
 - modalità di gioco
 - tempo massimo di ogni giocatore
 - vite massime
+
+Può premere il pulsanto di avvio per far iniziare la partita.
+
+Se il creatore della stanza esce, la stanza si chiude
+
+Un utente non può unirsi alla stanza mentre una partita è in corso.
 
 ### 1.2.2 Chat
 All'interno di ogni stanza di gioco è disponibile una chat in cui i giocatori possono comunicare, ogni messaggio è accompagnato dal nome del mittente.
 
 # 2 Risorse
 Saranno implementate REST API per interagire con le seguenti risorse:
-- **Utenti**
-- **Partite**
+- **Utente**
+- **Stanza**
 - **Lista parole**
 
 # 3 Gioco
@@ -98,6 +106,7 @@ ID_room e ID_user compongono la chiave primaria
 ## 5.1 Tecnologie
 Per la realizzazione dell'applicazione sono stati usati HTML, CSS, PHP, Javascript (utilizzando anche la libreria jQuery in particolar modo per le chiamate Ajax).
 Client e server comunicano tramite chiamate Ajax. In alcuni casi è necessario ci sia uno stream tra client e server per sincronizzare i client, per far ciò si utilizzano i Server Side Events (SSE).
+
 ## 5.2 Pagine
 In questa sezione verranno illustrate tutte le pagine web che compongono il sito e il loro funzionamento
 ### 5.2.1 Login
