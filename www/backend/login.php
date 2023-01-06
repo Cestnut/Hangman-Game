@@ -19,7 +19,8 @@ if(isset($_POST)){
         if(password_verify($password1, $password2)){
             $status = "success";
             $_SESSION['userID'] = $row['ID_user'];
-            $_SESSION['role'] = "user";
+            $_SESSION['role'] = $row['role'];
+            $_SESSION['username'] = $row['username'];
         }
         else{
             $status = "wrong_credentials";
