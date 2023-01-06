@@ -38,13 +38,14 @@
             $user_id = $conn->insert_id;
             $_SESSION['userID'] = $user_id;
             $_SESSION['role'] = "user";
+            $_SESSION['username'] = $username;
             $data["success"] = true;
 
             echo json_encode($data);
         }
     $conn->close();  
     }
-    catch(Excepon $e){
+    catch(Exception $e){
         if($conn->errno === ER_DUP_KEY){
             foreach ($conn->error_list as $element) {
                 $words = explode(' ', $element['error']);
