@@ -30,7 +30,7 @@
         else{
             $password = password_hash($password, PASSWORD_DEFAULT);
 
-            $stmt = $conn->prepare("INSERT INTO user (username, password) VALUES (?,?)");
+        $stmt = $conn->prepare("INSERT INTO user (username, password, role) VALUES (?,?, 'user')");
             $stmt->bind_param("ss", $username, $password);
             $stmt->execute();
             $stmt->store_result();
@@ -44,7 +44,7 @@
         }
     $conn->close();  
     }
-    catch(Exception $e){
+    catch(Excepon $e){
         if($conn->errno === ER_DUP_KEY){
             foreach ($conn->error_list as $element) {
                 $words = explode(' ', $element['error']);
