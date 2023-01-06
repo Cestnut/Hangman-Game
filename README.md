@@ -25,9 +25,9 @@ All'interno di ogni stanza di gioco è disponibile una chat in cui i giocatori p
 
 # 2 Risorse
 Saranno implementate REST API per interagire con le seguenti risorse:
-- **Utente**
-- **Stanza**
-- **Lista parole**
+- **User**
+- **Room**
+- **Wordlist**
 
 # 3 Gioco
 Viene scelto l'ordine dei giocatori, che a ogni turno provano a indovinare la parola. In caso sia sbagliata viene persa una vita per tutti. Se il turno scade semplicemente si passa al giocatore successivo.
@@ -103,3 +103,32 @@ In questa sezione verranno illustrate tutte le pagine web che compongono il sito
 ### 5.2.3 userHome
 ### 5.2.4 roomList
 ### 5.2.5 createRoom
+
+# 6 Servizi
+In questa sezione verranno documentate le API per accedere alle varie risorse.
+
+Le API si basano sui principi architetturali REST, quindi le risorse sono identificate da un URI e le operazioni CRUD sono mappate ai metodi HTTP.
+
+Prima di svolgere alcune operazioni viene verificato se chi le sta effettuando ha abbastanza permessi.
+
+Il body di ogni richiesta, se presente, deve essere in formato JSON.
+
+## 6.1 Room
+### 6.1.1 GET
+Tramite il metodo GET è possibile:
+- Specificare l'ID della risorsa e ottenere un JSON con ID e nome della stanza.
+- Non specificare un ID e ottenere un JSON con ID e nome di tutte le stanze.
+### 6.1.2 POST
+Tramite il metodo POST è possibile creare una stanza, a condizione che l'utente sia loggato, inserendo nel body della richiesta il nome della stanza.
+
+Verrà inoltre automaticamente inserito il record (ID_room, ID_host) all'interno della tabella Room_Partecipation.
+
+Viene controllato che l'utente sia loggato prima di svolgere alcuna operazione.
+
+Se l'utente è loggato viene tornato in output l'ID della stanza appena creata. In caso contrario verrà ritornata una stringa vuota.
+### 6.1.3 PUT
+Tramite il metodo PUT viene aggiornato il nome della stanza, a condizione che l'utente che sta cercando di eseguire l'operazione sia il creatore della stanza.
+
+Viene tornato in output il numero di righe modificate in caso l'utente abbia abbastanza permessi, una stringa vuota in caso contrario.
+### 6.1.4 DELETE
+Tramite questo metodo viene eliminata la stanza dal database, a condizione che l'operazione venga effettuata da un admin.
