@@ -113,6 +113,17 @@ Prima di svolgere alcune operazioni viene verificato se chi le sta effettuando h
 
 Il body di ogni richiesta, se presente, deve essere in formato JSON.
 
+Per tutte le risorse il server risponde con un JSON con i campi:
+  - status, che si suddivide in:
+    - not_valid: i valori di input sono malformati. Nel payload viene descritto quale sia l'errore
+    - success: la richiesta è andata a buon fine. Il payload è diverso in base al tipo di richiesta
+    - denied: permessi insufficienti
+    - error: errore generico del server
+  - payload (opzionale), utilizzato per i dati che il server deve comunicare. In caso di successo il significato cambia in base al tipo di richiesta:
+    - GET: JSON con i dati delle risorse richieste
+    - POST: ID della risorsa appena inserita
+    - PUT e DELETE: numero di record modificati
+    
 ## 6.1 Room
 ### 6.1.1 GET
 Tramite il metodo GET è possibile:
