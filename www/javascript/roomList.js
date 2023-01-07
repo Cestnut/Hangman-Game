@@ -29,6 +29,19 @@ function buildTable(){
 }
 
 function connectRoom(){
-    console.log("../html/room.html/" + this.id);
-    //window.location = "../html/userHome.html";
+    roomID = this.id;
+    $.ajax({
+        url: "../backend/roomConnection.php",
+        method: "POST",
+        data: {
+            roomID: roomID
+        }
+      }).done(function(message) {
+            console.log(message);
+            message = JSON.parse(message);
+            if (message.status == "success"){
+                console.log("../html/room.html/" + roomID);
+                //window.location = "../html/userHome.html";
+            }
+        });
 }
