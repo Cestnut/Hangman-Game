@@ -10,30 +10,13 @@
 </head>
 <body>
     <form name="createRoomForm" id="createRoomForm">
-        
         <div id="name">
             <label for="name">Room's Name</label>
             <input type="text" name="name">
-            <div id="nameErrors" class="error"></div>
+            <div id="error" class="error"></div>
         </div>
 
-        <div id="maxTime">
-            <label for="maxTime">Max Time (in seconds)</label>
-            <input type="text" name="maxTime" id="maxTimeField" pattern = "^[1-9]+[0-9]*$">
-        </div>
-                
-        <div>
-            <label for="lives">Lives</label>
-            <input type="text" name="lives" id="livesField" pattern = "^[1-9]+[0-9]*$">
-        </div>
-
-
-        <input type="submit" id="signupButton" value="Crea">
-
-        <div>
-            <a href="../html/login.html">Effettua il login</a>
-        </div>
-
+        <button type="button" id="createRoomButton" value="Crea">
     </form>
 </body>
 </html>
