@@ -14,22 +14,24 @@ if(isset($_SERVER['PATH_INFO'])){
     $ID = $request[0]; //index 0 since it's supposed to be the only element
 }
 $input = json_decode(file_get_contents('php://input'), true); //reads body of request
+if($input != ""){
+    $input = array_map(function($val) { return htmlspecialchars($val); }, $input); //maps function to every entry and returns new array
+}
 
 $response = array();
 
-if($input['name'] == ""){ //checks if body wasn't empty
+if(($method == "POST" || $method == "PUT") && $input['name'] == ""){ //checks if name given was empty in case of a POST or PUT request
     
     $response['status'] = "not_valid";
     $response['payload'] = "Can't be null";
     echo json_encode($response);
 }
 else{ 
-    $input = array_map(function($val) { return htmlspecialchars($val); }, $input); //maps function to every entry and returns new array
     try{
         // create stored queries based on HTTP method
         switch ($method) {
         case 'GET':
-            if($ID != ""){ //Checks if a specific ID was requested
+            if(isset($ID)){ //Checks if a specific ID was requested
                 $stmt = $conn->prepare("SELECT * FROM room WHERE ID_room = ?");
                 $stmt->bind_param("s", $ID);
             }
