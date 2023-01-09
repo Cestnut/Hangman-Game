@@ -11,7 +11,7 @@ Ogni utente al menù principale ha la possibilità di creare una stanza o unirsi
 - nome stanza (suggerito nomeutente's room)
 
 Il creatore di una stanza all'interno della stanza, prima di iniziare una partita deve fornire:
-- tempo massimo dper il turno di ogni giocatore
+- tempo massimo per il turno di ogni giocatore
 - vite massime
 
 Può premere il pulsanto di avvio per far iniziare la partita.
