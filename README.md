@@ -1,9 +1,9 @@
 # 1 Idea
 
-Il progetto si basa sul gioco dell'impiccato, in cui i giocatori hanno un certo numero di tentativi per indovinare una parola scelta dal server da una lista predefinita, e per ogni tentativo gli viene indicato quanto vicini o meno erano alla soluzione.
+Il progetto prevede la creazione di una versione online del gioco dell'impiccato. I giocatori avranno a disposizione un certo numero di tentativi per indovinare una parola scelta dal server, tra quelle presenti in una lista predefinita. Dopo ogni tentativo, il giocatore verrà informato su quanto la propria risposta si avvicini alla soluzione esatta.
 
 ## 1.1 Modalità di gioco
-I giocatori hanno vite condivise, ricevono gli stessi indizi e a turno provano a indovinare la parola. Ogni turno ha una durata limitata.
+I giocatori condividono Vite e Indizi, a turno provano a indovinare la parola. Ogni turno ha una durata limitata.
 
 ## 1.2 Stanze
 ### 1.2.1 Gestione
@@ -11,7 +11,7 @@ Ogni utente al menù principale ha la possibilità di creare una stanza o unirsi
 - nome stanza (suggerito nomeutente's room)
 
 Il creatore di una stanza all'interno della stanza, prima di iniziare una partita deve fornire:
-- tempo massimo dper il turno di ogni giocatore
+- tempo massimo per il turno di ogni giocatore
 - vite massime
 
 Può premere il pulsanto di avvio per far iniziare la partita.
@@ -34,7 +34,7 @@ Viene scelto l'ordine dei giocatori, che a ogni turno provano a indovinare la pa
 
 
 # 4 Database
-Il gioco si basa su un database SQL per salvare i dati. Di seguito verranno mostrati il diagramma ER e lo schema relazionale.
+Per il salvataggio dei dati Il gioco si basa su un database SQL. Di seguito verranno mostrati il diagramma ER e lo schema relazionale.
 ## 4.1 Diagramma ER
 
 ![ER_Diagram](ER_Diagram.png)
