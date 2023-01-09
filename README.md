@@ -34,7 +34,7 @@ Viene scelto l'ordine dei giocatori, che a ogni turno provano a indovinare la pa
 
 
 # 4 Database
-Il gioco si basa su un database SQL per salvare i dati. Di seguito verranno mostrati il diagramma ER e lo schema relazionale.
+Per il salvataggio dei dati Il gioco si basa su un database SQL. Di seguito verranno mostrati il diagramma ER e lo schema relazionale.
 ## 4.1 Diagramma ER
 
 ![ER_Diagram](ER_Diagram.png)
