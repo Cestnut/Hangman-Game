@@ -3,7 +3,7 @@
 Il progetto prevede la creazione di una versione online del gioco dell'impiccato. I giocatori avranno a disposizione un certo numero di tentativi per indovinare una parola scelta dal server, tra quelle presenti in una lista predefinita. Dopo ogni tentativo, il giocatore verrà informato su quanto la propria risposta si avvicini alla soluzione esatta.
 
 ## 1.1 Modalità di gioco
-I giocatori hanno vite condivise, ricevono gli stessi indizi e a turno provano a indovinare la parola. Ogni turno ha una durata limitata.
+I giocatori condividono Vite e Indizi, a turno provano a indovinare la parola. Ogni turno ha una durata limitata.
 
 ## 1.2 Stanze
 ### 1.2.1 Gestione
