@@ -18,8 +18,7 @@ function createRoom(){
             console.log(message);
             message = JSON.parse(message);
             if(message.status == "success"){
-                console.log("../html/room.html/" + message.payload);
-                //window.location = "../html/userHome.html";
+                window.location = "../html/room.html?roomID=" + roomID;
             }
             else if(message.status == "not_valid"){
                 error(message.payload);

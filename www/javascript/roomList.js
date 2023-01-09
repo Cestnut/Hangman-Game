@@ -13,7 +13,6 @@ function buildTable(){
             message = JSON.parse(message);
             if (message.status == "success"){
                 message.payload.forEach(function (room) {
-                    console.log(room);
                     var container = document.getElementById("roomList");
                     
                     var row = document.createElement("div");
@@ -40,8 +39,7 @@ function connectRoom(){
             console.log(message);
             message = JSON.parse(message);
             if (message.status == "success"){
-                console.log("../html/room.html/" + roomID);
-                //window.location = "../html/userHome.html";
+                window.location = "../html/room.html?roomID=" + roomID;
             }
         });
 }
