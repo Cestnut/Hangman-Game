@@ -9,7 +9,10 @@ if($room_ID && $_SESSION['userID']){
 
 $response = array();
 try{
-    if(isRoomOpen($room_ID)){
+    if(isUserInRoom($_SESSION['userID'], $room_ID)){ //user already in room is treated as success
+        $response['status'] = "success";
+    }
+    elseif(isRoomOpen($room_ID)){
         joinRoom($room_ID, $_SESSION['userID']);
         $response['status'] = "success";
     }
