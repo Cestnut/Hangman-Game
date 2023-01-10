@@ -36,9 +36,9 @@ function isRoomOpen($room_id){
     return $stmt->num_rows == 1;
 }
 
-function isRoomActive($room_id){
+function isRoomActive($room_id){ //if there is a game active returns the game ID
     global $conn;
-    $sql = "SELECT room.ID_room, game.ID_room, game.endTimestamp FROM room 
+    $sql = "SELECT room.ID_room, game.ID_room, game.endTimestamp, game.ID_game FROM room 
             JOIN game 
             ON room.ID_room = game.ID_room 
             WHERE room.ID_room = ? AND game.endTimestamp IS NULL";
@@ -47,8 +47,8 @@ function isRoomActive($room_id){
     $stmt->bind_param("s", $room_id);
     $stmt->execute();
 
-    $stmt->store_result();
-    return $stmt->num_rows == 1;                             
+    $row = $stmt->get_result()->fetch_assoc();
+    return $row['ID_game'];                           
 }
 
 function isUserInRoom($user_id, $room_id){ //if user is in room return timestamp of when they joined
@@ -60,7 +60,7 @@ function isUserInRoom($user_id, $room_id){ //if user is in room return timestamp
     $stmt->bind_param("ss", $user_id, $room_id);
     $stmt->execute();
 
-        $row = $stmt->get_result()->fetch_assoc();
-        return $row['timestamp'];
+    $row = $stmt->get_result()->fetch_assoc();
+    return $row['timestamp'];
 }
 ?>
