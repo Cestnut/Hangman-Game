@@ -3,7 +3,7 @@
 require_once($_SERVER['DOCUMENT_ROOT']."/backend/settings.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/backend/conn.php");
 
-#Doesn't check if room is open. Used for the first join.
+#Doesn't check if room is open.
 function joinRoom($room_id, $user_id){ 
     global $conn;
 
@@ -37,20 +37,30 @@ function isRoomOpen($room_id){
 }
 
 function isRoomActive($room_id){
-    //TOADD
-    return 1;                             
+    global $conn;
+    $sql = "SELECT room.ID_room, game.ID_room, game.endTimestamp FROM room 
+            JOIN game 
+            ON room.ID_room = game.ID_room 
+            WHERE room.ID_room = ? AND game.endTimestamp IS NULL";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $room_id);
+    $stmt->execute();
+
+    $stmt->store_result();
+    return $stmt->num_rows == 1;                             
 }
 
-function isUserInRoom($user_id, $room_id){
+function isUserInRoom($user_id, $room_id){ //if user is in room return timestamp of when they joined
     global $conn;
-    $sql = "SELECT * FROM room_partecipation 
+    $sql = "SELECT timestamp FROM room_partecipation 
             WHERE ID_user = ? AND ID_room = ?";
     
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $user_id, $room_id);
     $stmt->execute();
 
-    $stmt->store_result();
-    return $stmt->num_rows == 1;
+        $row = $stmt->get_result()->fetch_assoc();
+        return $row['timestamp'];
 }
 ?>
