@@ -6,10 +6,11 @@ require_once($_SERVER['DOCUMENT_ROOT']."/backend/functions/roomFunctions.php");
 
 $roomID = $_GET['roomID'];
 if (isUserInRoom($_SESSION['userID'], $roomID)){
-
+    session_write_close(); //NECESSARY so other scripts using this same sessione can be executed and don't have to wait until this closes.
+    
     header('Content-Type: text/event-stream');
     header('Cache-Control: no-cache');
-    
+
     define('HEARTBEAT_PERIOD', 0); //after how many seconds send an heartbeat signal
     $heartbeatTime = time();
     $lastMessageTimestamp = 0;
