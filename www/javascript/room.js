@@ -30,6 +30,8 @@ function writeChatMessage(messageJson){
 
 function sendMessage(){
     var message = $("#newMessage").html();
+    $("#newMessage").html("");
+    
     console.log(message);
     $.ajax({
         url: "../backend/sendMessage.php",
