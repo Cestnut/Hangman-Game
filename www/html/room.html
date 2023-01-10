@@ -9,11 +9,26 @@
     <title>Room</title>
 </head>
 <body>
+    <button type="button" id="leaveRoom">Leave</button>
     <div id="roomName"></div>
     <div id="chat">
         <div id="messages"></div>
         <div id="newMessage" contenteditable="true"></div>
         <button type="button" id="sendMessage">Send</button>
     </div>
+
+    <form id="startGameForm" hidden>
+        <div>
+            <label for="maxLives">Max Lives</label>
+            <input type="number" min="0" name="maxLives">
+        </div>
+        
+        <div>
+            <label for="maxTime">Max Time (in seconds)</label>
+            <input type="number" min="0" name="maxTime">
+        </div>
+            
+        <button type="button" id="startGame">Start</button>
+    </form>
 </body>
 </html>
