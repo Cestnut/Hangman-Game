@@ -7,9 +7,8 @@ require_once($_SERVER['DOCUMENT_ROOT']."/backend/functions/roomFunctions.php");
 $roomID = $_GET['roomID'];
 $userID = $_SESSION['userID'];
 session_write_close(); //NECESSARY so other scripts using this same sessione can be executed and don't have to wait until this closes.
-$lastMessageTimestamp = isUserInRoom($userID, $roomID);
 
-if ($lastMessageTimestamp){
+if ($lastMessageTimestamp = isUserInRoom($userID, $roomID)){
     
     header('Content-Type: text/event-stream');
     header('Cache-Control: no-cache');
@@ -24,7 +23,7 @@ if ($lastMessageTimestamp){
     $stmt = $conn->prepare($sql);
 
     while(1){
-        if (connection_aborted()) //returns true only if server knows the client disconnected. Namely after a message was sent and the client didn't answer.
+        if (!(isRoomOpen($roomID)) || connection_aborted() || isUserInRoom($userID, $roomID)) //returns true only if room closes or server knows the client disconnected. Namely after a message was sent and the client didn't answer.
             break;
 
         $stmt->bind_param("ss", $lastMessageTimestamp, $roomID);
@@ -38,6 +37,7 @@ if ($lastMessageTimestamp){
         
         if(time() > $heartbeatTime + HEARTBEAT_PERIOD){
             echo ": heartbeat\n\n"; //Used by the webserver to know if the connection was closed by the client, in case new messages are never found
+            $heartbeatTime = time();
         }
 
         ob_flush(); //Necessary to send data to the php buffer ready to send. If this wasn't used, no data would arrive to client until the script stopped
