@@ -31,9 +31,25 @@ else{
         // create stored queries based on HTTP method
         switch ($method) {
         case 'GET':
+
+            if(isset($_GET['status'])){
+                $status = $_GET['status'];
+            }
+            else
+            {
+                $status = "";
+            }
+
             if(isset($ID)){ //Checks if a specific ID was requested
                 $stmt = $conn->prepare("SELECT * FROM room WHERE ID_room = ?");
                 $stmt->bind_param("s", $ID);
+            }
+            elseif ($status == "open") {
+                $sql = "SELECT * FROM room 
+                        JOIN room_partecipation 
+                        ON room.ID_host = room_partecipation.ID_user 
+                        AND room.ID_room = room_partecipation.ID_room";
+                $stmt = $conn->prepare($sql);
             }
             else{
                 $stmt = $conn->prepare("SELECT * FROM room");

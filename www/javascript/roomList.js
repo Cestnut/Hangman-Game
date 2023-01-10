@@ -7,7 +7,10 @@ function init(){
 function buildTable(){
     $.ajax({
         url: "../backend/restAPI/roomAPI.php",
-        method: "get"
+        method: "get",
+        data:{
+            status:"open"
+        }
       }).done(function(message) {
             console.log(message);
             message = JSON.parse(message);
