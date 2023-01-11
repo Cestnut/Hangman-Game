@@ -129,7 +129,8 @@ Per tutte le risorse il server risponde con un JSON con i campi:
 ### 6.1.1 GET
 Tramite il metodo GET è possibile:
 - Specificare l'ID della risorsa e ottenere un JSON con ID e nome della stanza.
-- Non specificare un ID e ottenere un JSON con ID e nome di tutte le stanze.
+- Non specificare un ID e ottenere un JSON con ID e nome di tutte le stanze, o di tutte le stanze aperte se si specifica il query parameter status=open.
+
 ### 6.1.2 POST
 Tramite il metodo POST è possibile creare una stanza, a condizione che l'utente sia loggato, inserendo nel body della richiesta il nome della stanza.
 
