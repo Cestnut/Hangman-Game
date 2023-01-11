@@ -82,6 +82,7 @@ Per il salvataggio dei dati Il gioco si basa su un database SQL. Di seguito verr
 ## 4.2.8 Room_Partecipation
 - ID_room (chiave esterna in room)
 - ID_user (chiave esterna in user)
+- timestamp
 
 ID_room e ID_user compongono la chiave primaria
 
