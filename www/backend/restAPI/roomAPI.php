@@ -16,17 +16,17 @@ if(isset($_SERVER['PATH_INFO'])){
 $input = json_decode(file_get_contents('php://input'), true); //reads body of request
 if($input != ""){
     $input = array_map(function($val) { return htmlspecialchars($val); }, $input); //maps function to every entry and returns new array
+    $roomName = trim($input['name']);
 }
 
 $response = array();
-
-if(($method == "POST" || $method == "PUT") && $input['name'] == ""){ //checks if name given was empty in case of a POST or PUT request
-    
-    $response['status'] = "not_valid";
-    $response['payload'] = "Can't be null";
-    echo json_encode($response);
+if($method == "POST" || $method == "PUT"){
+    if(!(isset($roomName) && $roomName != "")){
+        $response['status'] = "not_valid";
+        $response['payload']= "You have to provide a name";
+    }
 }
-else{ 
+if(!isset($response['status'])){
     try{
         // create stored queries based on HTTP method
         switch ($method) {
@@ -65,7 +65,7 @@ else{
             //Only the owner of a room can change its name
             if($_SESSION['userID'] == $row['ID_host']){         
                 $stmt = $conn->prepare("UPDATE room SET name = ? WHERE ID_room = ?");
-                $stmt->bind_param("ss", $input['name'], $ID);
+                $stmt->bind_param("ss", $roomName, $ID);
             }
             break;
 
@@ -73,7 +73,7 @@ else{
             //only a logged user can create a room
             if(isset($_SESSION['userID'])){
                 $stmt = $conn->prepare("INSERT INTO room (name, ID_host) VALUES (?, ?)");
-                $stmt->bind_param("ss", $input['name'], $_SESSION['userID']);
+                $stmt->bind_param("ss", $roomName, $_SESSION['userID']);
             }
             break;
 
@@ -117,7 +117,6 @@ else{
             $response['status'] = "denied";
         }
 
-        echo json_encode($response);
         }
     catch(Exception $e){
         if($conn->errno === ER_DUP_KEY){
@@ -127,7 +126,8 @@ else{
         else{
             $response['status'] = "error";
         }
-        echo json_encode($response);
     }
 }
+echo json_encode($response);
+
 ?>
