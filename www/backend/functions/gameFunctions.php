@@ -1,4 +1,7 @@
 <?php
+require_once($_SERVER['DOCUMENT_ROOT']."/backend/settings.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/backend/conn.php");
+
 function isUserInGame($user_id, $game_id){ //if user is in game return ID of game partecipation
     global $conn;
     $sql = "SELECT timestamp FROM game_partecipation 
