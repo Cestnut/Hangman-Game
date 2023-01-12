@@ -23,7 +23,7 @@ if ($lastMessageTimestamp = isUserInRoom($userID, $roomID)){
     $stmt = $conn->prepare($sql);
 
     while(1){
-        if (!(isRoomOpen($roomID)) || connection_aborted() || isUserInRoom($userID, $roomID)) //returns true only if room closes or server knows the client disconnected. Namely after a message was sent and the client didn't answer.
+        if (!(isRoomOpen($roomID)) || connection_aborted() || !(isUserInRoom($userID, $roomID))) //returns true only if room closes or server knows the client disconnected. Namely after a message was sent and the client didn't answer.
             break;
 
         $stmt->bind_param("ss", $lastMessageTimestamp, $roomID);
