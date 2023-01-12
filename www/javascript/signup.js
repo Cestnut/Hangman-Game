@@ -5,44 +5,35 @@ function init(){
 }
 
 function signup(){
-
+    $("#errors").html("");
     let form = $("#signupForm");
 
     let username = form.find("[name='username']").val(); 
     let password = form.find("[name='password']").val(); 
     let confirmPassword = form.find("[name='confirmPassword']").val(); 
-
+    console.log(username);
     $.ajax({
-        url: "../backend/signup.php",
+        url: "../backend/restAPI/userAPI.php",
         method: "post",
-        data:{
+        data:JSON.stringify({
             username:username,
             password:password,
             confirmPassword:confirmPassword,
-        }
+        })
       }).done(function(message) {
             console.log(message);
             message = JSON.parse(message);
-            if(message.success){
+            if(message.status == "success"){
                 window.location = "../html/userHome.html";
             }
-            else{
-                let errors = message.errors;
+            else if(message.status == "not_valid"){
+                let errors = message.payload;
+                var container = document.getElementById("errors");
 
-                fields = ["username", "password"];
-                fields.forEach(function(field) {
-                    let errorsField = document.getElementById(field+"Errors");
-                    let newErrorsDiv = document.createElement("div");
-                    
-                    errors[field].forEach(function(error){
-                        let newErrorDiv = document.createElement("div");
-                        newErrorDiv.innerHTML = error;
-                        newErrorsDiv.appendChild(newErrorDiv);
-                    })
-
-                    errorsField.replaceChildren(newErrorsDiv);
-
-                });
-            }
-        });
+                errors.forEach(function (error){
+                    var row = document.createElement("div");
+                    row.innerHTML = error;
+                    container.appendChild(row);
+                })
+            }});
 }
