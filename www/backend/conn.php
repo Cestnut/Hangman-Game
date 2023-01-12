@@ -16,5 +16,11 @@ $conn->set_charset("utf8mb4");
 
 define('ER_DUP_KEY', 1062);
 
+//unsetting because this script will be included in almost every other script
+unset($servername);
+unset($username);
+unset($password);
+unset($database);
+
 session_start();
 ?>
