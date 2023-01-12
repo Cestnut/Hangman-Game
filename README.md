@@ -43,7 +43,6 @@ Per il salvataggio dei dati Il gioco si basa su un database SQL. Di seguito verr
 ## 4.2.1 Word
 - ID_word (chiave primaria)
 - word (30 caratteri)
-- language (15 caratteri)
 
 ## 4.2.2 Role
 - name (chiave primaria)

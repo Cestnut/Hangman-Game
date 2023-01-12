@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Gen 10, 2023 alle 15:22
+-- Creato il: Gen 12, 2023 alle 17:31
 -- Versione del server: 10.4.27-MariaDB
 -- Versione PHP: 8.1.12
 
@@ -145,7 +145,10 @@ INSERT INTO `message` (`ID_message`, `message`, `timestamp`, `ID_user`, `ID_room
 (77, 'AAAAAAAAAA', '2023-01-10 13:23:21', 12, 18),
 (78, 'NO', '2023-01-10 13:23:32', 8, 18),
 (79, 'dwadawd', '2023-01-10 13:24:40', 12, 18),
-(80, 'dawd', '2023-01-10 13:24:47', 8, 18);
+(80, 'dawd', '2023-01-10 13:24:47', 8, 18),
+(81, 'sfgvseafes', '2023-01-11 14:00:27', 8, 20),
+(82, 'sedfe', '2023-01-11 14:00:37', 8, 20),
+(83, 'messagggggioooo', '2023-01-11 14:04:36', 8, 20);
 
 -- --------------------------------------------------------
 
@@ -242,7 +245,8 @@ INSERT INTO `user` (`ID_user`, `username`, `password`, `role`) VALUES
 (9, 'account', '$2y$10$D4mGQ76Ty5hFAQJlnwUVXOYxtaQ9O2gzH87NQH6I5kr16iqn5SX9.', 'user'),
 (10, 'nuovoutente', '$2y$10$RH5.cbUM7F9Ij9LpPP/JRufhPSgyrpT2NWJ.Vd4gWbOr8EF8P3QXG', 'user'),
 (11, 'pincopallo', '$2y$10$47n1PNKmJQPmTDNQBeufb.FGTEZSaYwdVo2Q/WOD.uTzvRGeEE6Mu', 'user'),
-(12, 'forse', '$2y$10$kBMHbQqtpdACnEvkfzxwtuqIZxlKFoz37WqhB2wLWUFT466HI08/.', 'user');
+(12, 'forse', '$2y$10$kBMHbQqtpdACnEvkfzxwtuqIZxlKFoz37WqhB2wLWUFT466HI08/.', 'user'),
+(14, 'ciaooooo', '$2y$10$P4CcsQbJ37S5zYR3r55pjOtVqf.wzwaqC4DLjGtO94Lv8Jz85Nn7.', 'user');
 
 -- --------------------------------------------------------
 
@@ -252,9 +256,15 @@ INSERT INTO `user` (`ID_user`, `username`, `password`, `role`) VALUES
 
 CREATE TABLE `word` (
   `word` varchar(30) NOT NULL,
-  `language` varchar(15) NOT NULL,
   `ID_word` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `word`
+--
+
+INSERT INTO `word` (`word`, `ID_word`) VALUES
+('ciao', 4);
 
 --
 -- Indici per le tabelle scaricate
@@ -324,7 +334,8 @@ ALTER TABLE `user`
 -- Indici per le tabelle `word`
 --
 ALTER TABLE `word`
-  ADD PRIMARY KEY (`ID_word`);
+  ADD PRIMARY KEY (`ID_word`),
+  ADD UNIQUE KEY `word` (`word`);
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
@@ -352,7 +363,7 @@ ALTER TABLE `guess`
 -- AUTO_INCREMENT per la tabella `message`
 --
 ALTER TABLE `message`
-  MODIFY `ID_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `ID_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT per la tabella `room`
@@ -364,13 +375,13 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT per la tabella `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `ID_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT per la tabella `word`
 --
 ALTER TABLE `word`
-  MODIFY `ID_word` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_word` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Limiti per le tabelle scaricate
