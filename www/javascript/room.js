@@ -25,12 +25,16 @@ roomStatusSource.addEventListener("closed", function(e) {
 
 roomStatusSource.addEventListener("start", function(e) {
             console.log("game started");
+            initGame(e.data);
         });
 
 const chatSource = new EventSource('../backend/chat.php?roomID='+roomID);
 chatSource.addEventListener("message", function(e) {
             writeChatMessage(JSON.parse(e.data));
        });
+
+var gameSource = 0;
+var gameID = 0;
 
 function writeChatMessage(messageJson){
     var container = document.getElementById("messages");
@@ -91,7 +95,6 @@ function startGame(){
       }).done(function(message) {
             if(message == "success"){
                 console.log("Partita iniziata");
-                //window.location = "../html/userHome.html";
             }
             else if(message == "wrong_fields"){
                 console.log("Campi errati");
@@ -117,4 +120,99 @@ function showGameForm(){
                 container.removeAttribute("hidden");
             }
         });
+}
+
+function sendGuess(){
+    
+    let form = $("#guessForm");
+    let word = form.find("[name='guess']").val(); 
+    $.ajax({
+        url: "../backend/guessWord.php",
+        method: "post",
+        data:{
+            word:word,
+            gameID:gameID
+        }
+      }).done(function(message) {
+            document.getElementById("guessForm").setAttribute("hidden", true);
+            console.log(message);
+        });
+}
+
+function initGame(ID){
+
+    $("#sendGuess").on("click", sendGuess);
+
+    document.getElementById("roomContainer").setAttribute("hidden", true);
+    document.getElementById("gameContainer").removeAttribute("hidden");
+
+    gameID = ID;
+    gameSource = new EventSource('../backend/gameStatus.php?gameID='+gameID); 
+
+    gameSource.addEventListener("time", function(e) {
+        $("#time").html(e.data);
+         console.log(e.data);
+    }); 
+    
+    gameSource.addEventListener("letters", function(e) {
+        var letters = JSON.parse(e);
+        
+        for (var key in letters) {
+            var letterDiv = document.getElementById("letter"+key);
+            letterDiv.innerHTML = letters[key];
+        }
+        console.log(e.data);
+    });
+
+    gameSource.addEventListener("wordLenght", function(e) {
+        var container = document.getElementById("letters");
+        var lenght = parseInt(e.data);
+        for (let i = 0; i < lenght; i++) {
+                var entry = document.createElement("div");
+                entry.setAttribute("id", "letter"+i);
+                container.appendChild(entry);
+            }
+        console.log(e.data);
+    });
+    
+    gameSource.addEventListener("lives", function(e) {
+        $("#lives").html(e.data);
+         console.log(e.data);
+    });
+    
+    gameSource.addEventListener("turn", function(e) {
+        $("#turn").html("Turno di " + e.data);
+         console.log(e.data);
+    });
+    
+    gameSource.addEventListener("yourTurn", function(e) {
+        document.getElementById("guessForm").removeAttribute("hidden");
+        console.log(e.data);
+    });
+    
+    gameSource.addEventListener("finish", function(e) {
+        document.getElementById("guesses").innerHTML = "";
+        document.getElementById("gameContainer").setAttribute("hidden", true);
+        document.getElementById("roomContainer").removeAttribute("hidden");
+        gameSource.close();
+        gameSource = 0;
+        console.log(e.data);
+    });
+    
+    gameSource.addEventListener("guess", function(e) {
+        entryJson = JSON.parse(e);
+        var container = document.getElementById("guesses");
+        var entry = document.createElement("div");
+    
+        var user = document.createElement("span");
+        user.innerHTML = entryJson.user;
+        entry.appendChild(user);
+
+        var text = document.createElement("span");
+        text.innerHTML = entryJson.entry;
+        entry.appendChild(text);
+        
+        container.appendChild(entry);
+        console.log(e.data);
+    });    
 }

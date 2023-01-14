@@ -11,7 +11,6 @@ function login(){
 
     let username = form.find("[name='username']").val(); 
     let password = form.find("[name='password']").val(); 
-    console.log(password);
     $.ajax({
         url: "../backend/login.php",
         method: "post",
@@ -29,7 +28,6 @@ function login(){
             else if(message == "error"){
                 errorLogin("Errore del server");
             }
-            console.log(message);
 
         });
 }

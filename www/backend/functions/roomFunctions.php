@@ -36,6 +36,15 @@ function isRoomOpen($room_id){
     return $stmt->num_rows == 1;
 }
 
+function isUserRoomHost($user_id, $room_id){
+    global $conn;
+    $stmt = $conn->prepare("SELECT ID_host FROM room WHERE ID_room = ?");
+    $stmt->bind_param("s", $room_id);
+    $stmt->execute();
+    $row = $stmt->get_result()->fetch_assoc();
+    return $user_id == $row['ID_host'];
+}
+
 function isRoomActive($room_id){ //if there is a game active returns the game ID
     global $conn;
     $sql = "SELECT room.ID_room, game.ID_room, game.endTimestamp, game.ID_game FROM room 
@@ -48,7 +57,11 @@ function isRoomActive($room_id){ //if there is a game active returns the game ID
     $stmt->execute();
 
     $row = $stmt->get_result()->fetch_assoc();
-    return $row['ID_game'];                           
+    if(isset($row['ID_game']))
+        return $row['ID_game'];
+    else{
+        return 0;
+    }
 }
 
 function isUserInRoom($user_id, $room_id){ //if user is in room return timestamp of when they joined
@@ -62,5 +75,13 @@ function isUserInRoom($user_id, $room_id){ //if user is in room return timestamp
 
     $row = $stmt->get_result()->fetch_assoc();
     return $row['timestamp'];
+}
+
+function closeRoom(){
+    $stmt = $conn->prepare("SELECT ID_host FROM room WHERE ID_room = ?");
+    $stmt->bind_param("s", $room_id);
+    $stmt->execute();
+    $row = $stmt->get_result()->fetch_assoc();
+    leaveRoom($room_id, $row['ID_host']);
 }
 ?>

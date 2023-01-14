@@ -17,18 +17,32 @@
         <button type="button" id="sendMessage">Send</button>
     </div>
 
-    <form id="startGameForm" hidden>
-        <div>
-            <label for="maxLives">Max Lives</label>
-            <input type="number" min="0" name="maxLives">
-        </div>
-        
-        <div>
-            <label for="maxTime">Max Time (in seconds)</label>
-            <input type="number" min="0" name="maxTime">
-        </div>
+    <div id="roomContainer">
+        <form id="startGameForm" hidden>
+            <div>
+                <label for="maxLives">Max Lives</label>
+                <input type="number" min="0" name="maxLives">
+            </div>
             
-        <button type="button" id="startGame">Start</button>
-    </form>
+            <div>
+                <label for="maxTime">Max Time (in seconds)</label>
+                <input type="number" min="0" name="maxTime">
+            </div>
+                
+            <button type="button" id="startGame">Start</button>
+        </form>
+    </div>
+    <div id="gameContainer" hidden>
+        <div id="lives"></div>
+        <div id="turn"></div>
+        <div id="time"></div>
+        <div id="letters"></div>
+        <div id="guesses"></div>
+        <form id="guessForm" hidden>
+            <label for="guess">Guess</label>
+            <input type="text" name="guess">
+            <button type="button" id="sendGuess">Guess</button>
+        </form>
+    </div>
 </body>
 </html>

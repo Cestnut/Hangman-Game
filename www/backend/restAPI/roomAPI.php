@@ -57,13 +57,8 @@ if(!isset($response['status'])){
             break;
 
         case 'PUT':
-            $stmt1 = $conn->prepare("SELECT ID_host FROM room WHERE ID_room = ?");
-            $stmt1->bind_param("s", $ID);
-            $stmt1->execute();
-            $row = $stmt1->get_result()->fetch_assoc();
-
             //Only the owner of a room can change its name
-            if($_SESSION['userID'] == $row['ID_host']){         
+            if(isUserRoomHost($_SESSION['userID'], $ID)){         
                 $stmt = $conn->prepare("UPDATE room SET name = ? WHERE ID_room = ?");
                 $stmt->bind_param("ss", $roomName, $ID);
             }

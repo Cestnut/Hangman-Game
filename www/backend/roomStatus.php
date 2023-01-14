@@ -18,6 +18,7 @@ if (isUserInRoom($userID, $roomID)){
     $heartbeatTime = time();
 
     $roomName = "";
+    $startEventSent = 0;
     while(1){
         if (!(isRoomOpen($roomID)) || connection_aborted() || !(isUserInRoom($userID, $roomID))){ //returns true only if server knows the client disconnected. Namely after a message was sent and the client didn't answer.
             echo "event: closed\n"; //is needed only in case the room was closed
@@ -27,9 +28,14 @@ if (isUserInRoom($userID, $roomID)){
         }
 
         if($gameID = isRoomActive($roomID)){
-            if(isUserInGame($userID, $gameID)){
+            if(!$startEventSent && isUserInGame($userID, $gameID)){
+                $startEventSent = 1;
                 echo "event: start\n";
+                echo "data:".$gameID."\n\n";
             }
+        }
+        else{
+            $startEventSent = 0;
         }
         
         $stmt = $conn->prepare("SELECT name FROM room WHERE ID_room = ?");
