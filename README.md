@@ -146,3 +146,44 @@ Tramite il metodo PUT viene aggiornato il nome della stanza, a condizione che l'
 Viene tornato in output il numero di righe modificate in caso l'utente abbia abbastanza permessi, una stringa vuota in caso contrario.
 ### 6.1.4 DELETE
 Tramite questo metodo viene eliminata la stanza dal database, a condizione che l'operazione venga effettuata da un admin.
+
+## 6.2 User
+<code>GET /userAPI.php/ID</code>
+
+<code>GET /userAPI.php</code>
+
+
+<code>POST /userAPI.php
+{
+word:word
+}</code>
+
+
+<code>PUT /userAPI.php/ID
+{
+word:word
+}
+</code>
+
+
+<code>DELETE /userAPI.php/ID</code>
+## 6.3 Word
+<code>GET /wordAPI.php/ID</code>
+
+<code>GET /wordAPI.php</code>
+
+
+<code>POST /wordAPI.php
+{
+word:word
+}</code>
+
+
+<code>PUT /wordAPI.php/ID
+{
+word:word
+}
+</code>
+
+
+<code>DELETE /wordAPI.php/ID</code>
