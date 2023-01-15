@@ -74,7 +74,10 @@ function isUserInRoom($user_id, $room_id){ //if user is in room return timestamp
     $stmt->execute();
 
     $row = $stmt->get_result()->fetch_assoc();
-    return $row['timestamp'];
+    if(isset($row['timestamp']))
+        return $row['timestamp'];
+    else
+        return 0;
 }
 
 function closeRoom(){

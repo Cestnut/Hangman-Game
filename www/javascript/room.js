@@ -155,7 +155,7 @@ function initGame(ID){
     }); 
     
     gameSource.addEventListener("letters", function(e) {
-        var letters = JSON.parse(e);
+        var letters = JSON.parse(e.data);
         
         for (var key in letters) {
             var letterDiv = document.getElementById("letter"+key);
@@ -170,6 +170,7 @@ function initGame(ID){
         for (let i = 0; i < lenght; i++) {
                 var entry = document.createElement("div");
                 entry.setAttribute("id", "letter"+i);
+                entry.innerHTML = "<br>";
                 container.appendChild(entry);
             }
         console.log(e.data);
@@ -192,6 +193,7 @@ function initGame(ID){
     
     gameSource.addEventListener("finish", function(e) {
         document.getElementById("guesses").innerHTML = "";
+        document.getElementById("letters").innerHTML = "";
         document.getElementById("gameContainer").setAttribute("hidden", true);
         document.getElementById("roomContainer").removeAttribute("hidden");
         gameSource.close();
@@ -200,7 +202,8 @@ function initGame(ID){
     });
     
     gameSource.addEventListener("guess", function(e) {
-        entryJson = JSON.parse(e);
+        console.log("guess");
+        entryJson = JSON.parse(e.data);
         var container = document.getElementById("guesses");
         var entry = document.createElement("div");
     
@@ -209,7 +212,7 @@ function initGame(ID){
         entry.appendChild(user);
 
         var text = document.createElement("span");
-        text.innerHTML = entryJson.entry;
+        text.innerHTML = entryJson.word;
         entry.appendChild(text);
         
         container.appendChild(entry);
