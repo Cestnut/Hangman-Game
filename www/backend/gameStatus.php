@@ -65,7 +65,7 @@ if (isUserInGame($userID, $gameID)){
 
         if(!isGameActive($gameID)){
             echo "event: finish\n";
-            echo "data: ".$row['word']."\n\n";
+            echo "data: ".$word."\n\n";
             leaveGame($gameID, $userID);
             break;
         }
@@ -80,21 +80,21 @@ if (isUserInGame($userID, $gameID)){
         }
         if($foundLetters != $newFoundLetters){
             $foundLetters = $newFoundLetters;
-            echo "event:  letters\n";
+            echo "event: letters\n";
             echo "data: ".json_encode($newFoundLetters)."\n\n";
         }
 
         $stmt = $conn->prepare("SELECT guess.ID_guess, guess.word, user.username FROM guess 
                                 JOIN game_partecipation ON guess.ID_game_partecipation = game_partecipation.ID_game_partecipation 
                                 JOIN user ON game_partecipation.ID_user = user.ID_user 
-                                WHERE ID_guess > ? ORDER BY ID_guess ASC");
+                                WHERE ID_guess > ? AND ID_game = ? ORDER BY ID_guess ASC");
 
-        $stmt->bind_param("s", $lastGuessID);
+        $stmt->bind_param("ss", $lastGuessID, $gameID);
         $stmt->execute();
         $result = $stmt->get_result();
         while($row = $result->fetch_assoc()){
             $data = array("user" => $row['username'], "word" => $row['word']);
-            echo "event:  guess\n";
+            echo "event: guess\n";
             echo "data: ".json_encode($data)."\n\n";
             
             $lastGuessID = $row['ID_guess'];

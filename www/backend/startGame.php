@@ -17,11 +17,11 @@ session_write_close();
 $result = array("status" => "success");
 if(isUserRoomHost($userID, $roomID) && !isRoomActive($roomID)){
     if(is_numeric($maxLives) && is_numeric($maxTime)){
-        if ((int)$maxLives < 1 &&  (int)$maxLives > 999){
+        if ((int)$maxLives < 1 ||  (int)$maxLives > 999){
             $result["status"] = "not_valid";
             $result["payload"] = "Lives must be between 1 and 999";
         }
-        if ((int)$maxTime < 1 &&  (int)$maxTime > 120){
+        if ((int)$maxTime < 1 ||  (int)$maxTime > 120){
             $result["status"] = "not_valid";
             $result["payload"] = "Turn must be between 1 and 120 seconds";
         }
@@ -43,44 +43,44 @@ if(isUserRoomHost($userID, $roomID) && !isRoomActive($roomID)){
     header("Content-Length: $size");
     ob_flush();
     flush();
-*/
+*/  
+    echo json_encode($result);
     if($result['status'] == "success"){
         try{
             $wordArray = randomWord(); //First element is the ID, the second is the actual word
             $wordID = $wordArray[0]; 
             $word = strtolower($wordArray[1]);
-
+            $resultMask = pow(2, strlen($word)+1) - 1;
             $gameID = createGame($maxLives, $maxTime, $wordID, $roomID);
             connectAllUsers($gameID, $roomID);
             $gameQueue = new gameQueue($gameID, $conn);
             print_r($gameQueue->queue);
-            $firstPlayer = $gameQueue->next();
+            $turnPlayer = $gameQueue->next();
             $stmt = $conn->prepare("UPDATE game SET turnPlayerID = ? WHERE ID_game = ?");    
-            $stmt->bind_param("ss", $firstPlayer, $gameID);
+            $stmt->bind_param("ss", $turnPlayer, $gameID);
             $stmt->execute();
 
             $time = time();
             $lastGuessID = 0;
             $oldBitMask = 0;
             while(true){
-                $stmt = $conn->prepare("SELECT * FROM guess ORDER BY ID_guess DESC LIMIT 1");
+                $stmt = $conn->prepare("SELECT * FROM guess 
+                                        JOIN game_partecipation ON guess.ID_game_partecipation = game_partecipation.ID_game_partecipation
+                                        WHERE game_partecipation.ID_game = ? AND game_partecipation.ID_user = ? ORDER BY ID_guess DESC LIMIT 1");
+                $stmt->bind_param("ss", $gameID, $turnPlayer);
                 $stmt->execute();
                 $row = $stmt->get_result()->fetch_assoc();
-                if ($lastGuessID != $row['ID_guess']){
+                if (isset($row['ID_guess']) && $lastGuessID != $row['ID_guess']){
                     //turno finito
-                    
                     $lastGuessID = $row['ID_guess'];
                     $guessedWord = strtolower($row['word']);
-                    $flagWin = true;
                     $bitMask = 1;
                     for ($index = 0; $index < strlen($word); $index++) {
                         $bitMask *= 2;
                         if(isset($guessedWord[$index]) && $word[$index] == $guessedWord[$index]){
                             $bitMask += 1;
                         }
-                        else{
-                            $flagWin = false;
-                        }
+                        //echo "\n".$index." ".$word[$index]." ".$guessedWord[$index]." ".$bitMask."\n"; 
                     }
                     $oldBitMask = $oldBitMask | $bitMask;
                     
@@ -88,34 +88,35 @@ if(isUserRoomHost($userID, $roomID) && !isRoomActive($roomID)){
                     $stmt->bind_param("ss", $oldBitMask, $gameID);
                     $stmt->execute();
 
-                    if($flagWin){
+                    if($oldBitMask == $resultMask){
                         endGame($gameID);
                         break;
                     }
                     if(endTurn($gameQueue, $gameID)){
+                        endGame($gameID);
                         break;
+                    }
+                }
+                else{
+                    $sql = "SELECT * FROM game_partecipation WHERE ID_game = ? AND ID_user = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("ss", $gameID, $turnPlayer);
+                    $stmt->execute();
+                    $stmt->store_result();
+                    if ($stmt->num_rows == 0){
+                        if(endTurn($gameQueue, $gameID)){
+                            endGame($gameID);
+                            break;
+                        }
                     }
                 }
 
-                $sql = "SELECT * FROM game_partecipation
-                        JOIN game ON game.turnPlayerID = game_partecipation.ID_user
-                        WHERE game.ID_game = ?";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("s", $gameID);
-                $stmt->execute();
-                $stmt->store_result();
-                if ($stmt->num_rows == 0){
+                if(time() > $maxTime + $time){
                     if(endTurn($gameQueue, $gameID)){
+                        endGame($gameID);
                         break;
                     }
                 }
-
-                if($time + time() > $maxTime){
-                    if(endTurn($gameQueue, $gameID)){
-                        break;
-                    }
-                }
-  
                 sleep(0.5);
             }
         }
@@ -130,14 +131,18 @@ function endTurn($gameQueue, $gameID){
     global $conn;
     global $time;
     global $maxLives;
+    global $turnPlayer;
     if(--$maxLives == 0){
+        $stmt = $conn->prepare("UPDATE game SET max_lives = 0 WHERE ID_game = ?");
+        $stmt->bind_param("s", $gameID);   
+        $stmt->execute();
         return True;
     }
     else{
-        $nextPlayer = $gameQueue->next();
+        $turnPlayer = $gameQueue->next();
 
         $stmt = $conn->prepare("UPDATE game SET turnPlayerID = ?, max_lives = ? WHERE ID_game = ?");    
-        $stmt->bind_param("sss", $nextPlayer, $maxLives, $gameID);
+        $stmt->bind_param("sss", $turnPlayer, $maxLives, $gameID);
         $stmt->execute();
 
         $time = time();
@@ -164,18 +169,21 @@ class gameQueue {
     }
 
     public function next(){
-        $nextUser = $this->queue[$this->currentTurn];
+        $nextUser = $this->queue[($this->currentTurn + 1) % $this->size];
   
         while(!isUserInGame($nextUser, $this->gameID)){
           $this->removeElement($this->currentTurn);
-          $nextUser = $this->queue[$this->currentTurn];
+          echo $this->size."\n";
+          $nextUser = $this->queue[($this->currentTurn + 1) % $this->size];
         }
+        $this->currentTurn++;
+        echo $nextUser."\n";
         return $nextUser;
-        $this->currentTurn = ($this->currentTurn + 1) % $this->size;
     }
 
     private function push($elem) {
       $this->queue[] = $elem;
+      echo $this->size."\n";
       $this->size++;
     }
 
