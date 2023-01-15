@@ -65,6 +65,8 @@ Per il salvataggio dei dati Il gioco si basa su un database SQL. Di seguito verr
 - ID_room (chiave esterna in room)
 - ID_word (chiave esterna in word)
 - finishTimestamp (default NULL)
+- turnPlayerID (chiave esterna in user)
+- wordMask (INT)
 
 ## 4.2.6 Message
 - ID_message (chiave primaria)
