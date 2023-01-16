@@ -127,48 +127,60 @@ Per tutte le risorse il server risponde con un JSON con i campi:
     - PUT e DELETE: numero di record modificati
     
 ## 6.1 Room
-### 6.1.1 GET
-Tramite il metodo GET è possibile:
-- Specificare l'ID della risorsa e ottenere un JSON con ID e nome della stanza.
-- Non specificare un ID e ottenere un JSON con ID e nome di tutte le stanze, o di tutte le stanze aperte se si specifica il query parameter status=open.
+<code>GET /roomAPI.php/ID</code>
+- <code>"payload":[{"ID_room":ID,"name":name}]</code>
 
-### 6.1.2 POST
-Tramite il metodo POST è possibile creare una stanza, a condizione che l'utente sia loggato, inserendo nel body della richiesta il nome della stanza.
+<code>GET /roomAPI.php</code>
 
-Verrà inoltre automaticamente inserito il record (ID_room, ID_host) all'interno della tabella Room_Partecipation.
+<code>GET /roomAPI.php?status=open</code>
+- Ritorna solo le stanze aperte
 
-Viene controllato che l'utente sia loggato prima di svolgere alcuna operazione.
 
-Se l'utente è loggato viene tornato in output l'ID della stanza appena creata. In caso contrario verrà ritornata una stringa vuota.
-### 6.1.3 PUT
-Tramite il metodo PUT viene aggiornato il nome della stanza, a condizione che l'utente che sta cercando di eseguire l'operazione sia il creatore della stanza.
+<code>POST /roomAPI.php
+{
+roomname:roomname
+}</code>
+- Solo un utente loggato può creare una stanza
 
-Viene tornato in output il numero di righe modificate in caso l'utente abbia abbastanza permessi, una stringa vuota in caso contrario.
-### 6.1.4 DELETE
-Tramite questo metodo viene eliminata la stanza dal database, a condizione che l'operazione venga effettuata da un admin.
+<code>PUT /roomAPI.php/ID
+{
+roomname:roomname
+}
+</code>
+- Solo il proprietario di una stanza può modificarne il nome
+
+<code>DELETE /roomAPI.php/ID</code>
+- Solo un admin può eliminare una stanza
 
 ## 6.2 User
 <code>GET /userAPI.php/ID</code>
+- <code>"payload":[{"ID_user":ID,"username":username}]</code>
 
 <code>GET /userAPI.php</code>
 
 
 <code>POST /userAPI.php
 {
-word:word
+username:username,
+password:password,
+confirmPassword:confirmPassword
 }</code>
 
 
 <code>PUT /userAPI.php/ID
 {
-word:word
+username:username
 }
 </code>
-
+- Solo un utente può modificare il suo stesso username
 
 <code>DELETE /userAPI.php/ID</code>
+- Solo un utente può eliminare il suo stesso account
 ## 6.3 Word
+Solo un admin può effettuare le seguenti richieste
+
 <code>GET /wordAPI.php/ID</code>
+- <code>"payload":[{"ID_word":4,"word":"ciao"}</code>
 
 <code>GET /wordAPI.php</code>
 
