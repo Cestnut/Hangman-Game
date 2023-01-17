@@ -70,8 +70,9 @@ if(isUserRoomHost($userID, $roomID) && !isRoomActive($roomID)){
                 $stmt->bind_param("ss", $gameID, $turnPlayer);
                 $stmt->execute();
                 $row = $stmt->get_result()->fetch_assoc();
-                if (isset($row['ID_guess']) && $lastGuessID != $row['ID_guess']){
+                if (isset($row['ID_guess']) && $lastGuessID < $row['ID_guess']){
                     //turno finito
+                    echo "wrong word ".$gameID." ".$turnPlayer." ".$lastGuessID." ".$row['ID_guess']."\n";
                     $lastGuessID = $row['ID_guess'];
                     $guessedWord = strtolower($row['word']);
                     $bitMask = 1;
@@ -104,6 +105,7 @@ if(isUserRoomHost($userID, $roomID) && !isRoomActive($roomID)){
                     $stmt->execute();
                     $stmt->store_result();
                     if ($stmt->num_rows == 0){
+                        echo "tunr player left\n";
                         if(endTurn($gameQueue, $gameID)){
                             endGame($gameID);
                             break;
@@ -112,6 +114,7 @@ if(isUserRoomHost($userID, $roomID) && !isRoomActive($roomID)){
                 }
 
                 if(time() > $maxTime + $time){
+                    echo "time up\n";
                     if(endTurn($gameQueue, $gameID)){
                         endGame($gameID);
                         break;

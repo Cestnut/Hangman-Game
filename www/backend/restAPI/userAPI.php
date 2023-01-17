@@ -11,9 +11,10 @@ if(isset($_SERVER['PATH_INFO'])){
     $request = explode('/', trim($_SERVER['PATH_INFO'],'/')); 
     $ID = $request[0]; //index 0 since it's supposed to be the only element
 }
-$input = json_decode(file_get_contents('php://input'), true); //reads body of request
-if($input != ""){
-    $input = array_map(function($val) { return htmlspecialchars($val); }, $input); //maps function to every entry and returns new array
+$input = json_decode(file_get_contents('php://input'), true); //reads body of request as associative array
+
+if(isset($input['username'])){ //controllo effettuato sennò htmspecialchars() darebbe errore
+    $input['username'] = htmlspecialchars($input['username']); //maps function to every entry and returns new array
     $username = str_replace(" ","", $input['username']); //removes spaces from username
 }
 
@@ -21,7 +22,7 @@ $response = array();
 if($method == "POST"){
     $password = $input['password'];
     $confirmPassword = $input['confirmPassword'];
-    if(!(isset($username) && $username != "")){
+    if(!(isset($username) && $username != "")){ //la condizione è vera se la variabile non è settata o se è vuota
         $response['status'] = "not_valid";
         $response['payload'][] = "You have to provide username";
     }
@@ -38,14 +39,20 @@ if($method == "POST"){
         $response['payload'][] = "password and confirmPassword don't match";
     }
 }
-if($method=="PUT"){
+elseif($method=="PUT"){
     if(!(isset($username) && $username != "")){
         $response['status'] = "not_valid";
-        $response['payload'] = "You have to provide username";
+        $response['payload'][] = "You have to provide username";
     }
     if($ID == ""){
         $response['status'] = "not_valid";
-        $response['payload'] = "You have to provide an ID";
+        $response['payload'][] = "You have to provide an ID";
+    }
+}
+elseif($method=="DELETE"){
+    if($ID == ""){
+        $response['status'] = "not_valid";
+        $response['payload'][] = "You have to provide an ID";
     }
 }
 if(!isset($response['status'])){
@@ -121,7 +128,7 @@ if(!isset($response['status'])){
     catch(Exception $e){
         if($conn->errno === ER_DUP_KEY){
             $response['status'] = "not_valid";
-            $response['payload'] = "Already exists";
+            $response['payload'][] = "Already exists";
         }
         else{
             $response['status'] = "error";

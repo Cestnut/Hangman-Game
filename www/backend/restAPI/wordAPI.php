@@ -58,7 +58,6 @@ if(!isset($response['status']) && $_SESSION['role'] == "admin"){
         }
 
         //Checks if stmt exist. It may not exist if requesting user didnt have enough permissions
-        if(isset($stmt)){
             $response['status'] = "success";
             //execute query and get result set
             $stmt->execute();
@@ -80,11 +79,6 @@ if(!isset($response['status']) && $_SESSION['role'] == "admin"){
             else { //For both UPDATE and DELETE methods
                 $response['payload'] = $stmt->affected_rows;
             }
-            }
-        else{
-            $response['status'] = "denied";
-        }
-
         }
     catch(Exception $e){
         if($conn->errno === ER_DUP_KEY){
@@ -96,6 +90,8 @@ if(!isset($response['status']) && $_SESSION['role'] == "admin"){
         }
     }
 }
+$response['status'] = "denied";
+
 echo json_encode($response);
 
 ?>
