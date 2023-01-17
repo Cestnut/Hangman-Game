@@ -4,6 +4,7 @@ function init(){
     $("#sendMessage").on("click", sendMessage);
     $("#startGame").on("click", startGame);
     $("#leaveRoom").on("click", leave);
+    $("#sendGuess").on("click", sendGuess);
     showGameForm();
 }
 
@@ -20,13 +21,17 @@ roomStatusSource.addEventListener("closed", function(e) {
             chatSource.close()    
             roomStatusSource.close()
             console.log("room closed");
-            window.location = "../html/roomList.html";
+            //window.location = "../html/roomList.html";
         });
 
 roomStatusSource.addEventListener("start", function(e) {
             console.log("game started");
             initGame(e.data);
         });
+
+        roomStatusSource.addEventListener("message", function(e) {
+            console.log(e.data);
+       });
 
 const chatSource = new EventSource('../backend/chat.php?roomID='+roomID);
 chatSource.addEventListener("message", function(e) {
@@ -125,24 +130,24 @@ function showGameForm(){
 function sendGuess(){
     
     let form = $("#guessForm");
-    let word = form.find("[name='guess']").val(); 
-    $.ajax({
-        url: "../backend/guessWord.php",
-        method: "post",
-        data:{
-            word:word,
-            gameID:gameID
-        }
-      }).done(function(message) {
-            document.getElementById("guessForm").setAttribute("hidden", true);
-            console.log(message);
-        });
+    let word = form.find("[name='guess']").val();
+    if(word.trim() != ""){
+        $.ajax({
+            url: "../backend/guessWord.php",
+            method: "post",
+            data:{
+                word:word,
+                gameID:gameID
+            }
+        }).done(function(message) {
+                document.getElementById("guessForm").setAttribute("hidden", true);
+                console.log(message);
+            });
+    }
 }
 
 function initGame(ID){
-
-    $("#sendGuess").on("click", sendGuess);
-
+    var maxTime = 0;
     document.getElementById("roomContainer").setAttribute("hidden", true);
     document.getElementById("gameContainer").removeAttribute("hidden");
 
@@ -150,8 +155,8 @@ function initGame(ID){
     gameSource = new EventSource('../backend/gameStatus.php?gameID='+gameID); 
 
     gameSource.addEventListener("time", function(e) {
-        $("#time").html(e.data);
-         console.log(e.data);
+        maxTime = e.data;
+        console.log(e.data);
     }); 
     
     gameSource.addEventListener("letters", function(e) {
@@ -188,6 +193,7 @@ function initGame(ID){
     
     gameSource.addEventListener("yourTurn", function(e) {
         document.getElementById("guessForm").removeAttribute("hidden");
+        startTimer();
         console.log(e.data);
     });
     
@@ -218,4 +224,20 @@ function initGame(ID){
         container.appendChild(entry);
         console.log(e.data);
     });    
-}
+
+    function startTimer(){
+        var i = maxTime;
+        var intervalID = setInterval(function() {
+            $("#time").html(i);
+            if (i == 0){
+                document.getElementById("guessForm").setAttribute("hidden", true);
+                clearInterval(intervalID);
+            }
+            else if(document.getElementById("guessForm").getAttribute("hidden")){ //this condition is true when a guess has already be sent.
+                clearInterval(intervalID);
+            }
+            else 
+                i--;
+        }, 1000);
+      }
+    }
