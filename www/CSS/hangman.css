@@ -1,0 +1,70 @@
+
+/* inizio stile della pagina Userhome*/
+
+.body-userHome {
+    background-color: lightblue;
+    text-align: center;
+}
+.create-room-btn {
+background: linear-gradient(to right, #ff0099, #ff66cc); /*Colore degradè rosa-viola */
+color: white; /* Colore del testo bianco */
+padding: 12px 20px; /* Spaziatura del bottone */
+border: 2px solid white; /* Bordo bianco sottile */
+border-radius: 25px; /* Angoli arrotondati */
+cursor: pointer; /* Cambia il cursore del mouse */
+font-size: 18px; /* Dimensione del testo */
+font-weight: bold; /* Grassetto */
+text-align: center; /* Allinea il testo al centro */
+}
+/* Stile hover */
+.create-room-btn:hover {
+    background: linear-gradient(to right, #ff66cc, #ff0099); /*Colore degradè viola-rosa al passaggio del mouse */
+}
+.room-list-btn {
+    background-color: #FF8F00; /* Colore arancione scuro */
+    color: white; /* Colore del testo bianco */
+    padding: 12px 20px; /* Spaziatura del bottone */
+    border: 2px solid #F57C00; /* Bordo arancione scuro */
+    border-radius: 25px; /* Angoli arrotondati */
+    cursor: pointer; /* Cambia il cursore del mouse */
+    font-size: 18px; /* Dimensione del testo */
+    font-weight: bold; /* Grassetto */
+    text-align: center; /* Allinea il testo al centro */
+}
+.logout-btn {
+    background-color: #F44336; /* Colore rosso */
+    color: white; /* Colore del testo bianco */
+    padding: 12px 20px; /* Spaziatura del bottone */
+    border: 2px solid #D32F2F; /* Bordo rosso scuro */
+    border-radius: 25px; /* Angoli arrotondati */
+    cursor: pointer; /* Cambia il cursore del mouse */
+    font-size: 18px; /* Dimensione del testo */
+    font-weight: bold; /* Grassetto */
+    text-align: center; /* Allinea il testo al centro */
+}
+/* Stile hover */
+.room-list-btn:hover, .logout-btn:hover {
+    background-color: #BDBDBD; /*Colore grigio scuro al passaggio del mouse */
+}
+.container {
+    text-align: center; /* Allinea il contenitore al centro */
+    margin: 230px; /* margine per mettere l'insieme di button al centro del container */
+}
+
+/* Dimensioni dei bottoni originali */
+.create-room-btn, .room-list-btn, .logout-btn {
+    
+    padding: 24px 70px;/* lunghezza e altezza button*/
+    font-size: 23px; /* grandezza testo dentro button*/
+    margin: 15px; /* distanza dal bordo del button sopra-sotto-destra-sinistra da altri buttons o elementi*/
+}
+
+/* Media query per schermi più piccoli */
+@media (max-width: 600px) {
+    .create-room-btn, .room-list-btn, .logout-btn {
+        padding: 8px 15px; /* Riduci la dimensione del bottone */
+        font-size: 14px; /* Riduci la dimensione del testo */
+    }
+}
+
+/* fine stile della pagina Userhome*/
