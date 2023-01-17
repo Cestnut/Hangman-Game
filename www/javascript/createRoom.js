@@ -1,7 +1,12 @@
 window.onload = init
 
 function init(){
+    $("#back").on("click", leave);
     $("#createRoomButton").on("click", createRoom);
+}
+
+function leave(){
+    window.location = "../html/userHome.html";
 }
 
 function createRoom(){
