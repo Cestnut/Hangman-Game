@@ -11,14 +11,14 @@ Ogni utente al menù principale ha la possibilità di creare una stanza o unirsi
 - nome stanza (suggerito nomeutente's room)
 
 Il creatore di una stanza all'interno della stanza, prima di iniziare una partita deve fornire:
-- tempo massimo per il turno di ogni giocatore
-- vite massime
+- tempo massimo per il turno di ogni giocatore, tra 1 e 120 secondi.
+- vite massime, tra 1 e 999.
 
 Può premere il pulsanto di avvio per far iniziare la partita.
 
 Se il creatore della stanza esce, la stanza si chiude
 
-Un utente non può unirsi alla stanza mentre una partita è in corso.
+Un utente può unirsi alla stanza mentre una partita è in corso, ma non partecipa e non vede la partita.
 
 ### 1.2.2 Chat
 All'interno di ogni stanza di gioco è disponibile una chat in cui i giocatori possono comunicare, ogni messaggio è accompagnato dal nome del mittente.
@@ -436,8 +436,32 @@ In questa pagina è presente un pulsante per tornare alla home, e un form per cr
 L'utente deve fornire il nome della stanza, che deve essere non nullo e univoco. Al click del bottone parte una richiesta HTTP POST alla risorsa Room. In caso di successo, l'utente viene portato alla pagina della stanza appena creata, in caso contrario viene stampato un errore.
 
 ### 5.4.6 room
-queryparam, connessione alla stanza e alla chat, form di chat, form di creazione partita per il creatore, connessione alla partita, form di tentativo.
+Questa è la pagina principale in cui si trovano la chat, le impostazioni per la partita e in cui si svolge la partita stessa.
 
+Abbiamo il box della chat, in cui appaiono i nuovi messaggi con mittente e contenuto, con una barra per scriverne di nuovi. I messaggi arrivano a tutti i giocatori connessi alla stanza. Un utente vede tutti i messaggi che sono stati scritti nella stanza da quando si è connesso.
+
+Per l'host della stanza c'è un form per far iniziare la partita, contenente due campi: maxLives e maxTime (in secondi). Una volta premuto il pulsante di invio se non ci sono stati errori, viene avviata la partita per tutti gli utenti connessi alla stanza in quel momento.
+
+L'interfaccia della partita contiene:
+- Numero di vite attuali
+- Nome del giocatore di turno
+- Secondi rimasti per il turno
+- Lettere indovinate
+- Tentativi già fatti da altri giocatori 
+- Form in cui inserire il tentativo
+
+La prima cosa che fa la pagina è leggere l'ID della stanza dall'URL della pagina.
+
+```js
+const urlParams = new URLSearchParams(window.location.search);
+const roomID = urlParams.get('roomID');
+```
+Questo serve per tutte le comunicazioni col server.
+
+Successivamente vengono creati tre oggetti EventSource per ottenere aggiornamenti da:
+- chat (file chat.php)
+- stato della stanza (file roomStatus.php)
+- stato della partita (file gameStatus.php)
 
 # 6 Servizi
 In questa sezione verranno documentate le API per accedere alle varie risorse.
@@ -522,7 +546,7 @@ Solo un admin può effettuare le seguenti richieste
 {
 word:word
 }</code>
-
+- massimo 30 caratteri, quelli successivi saranno ignorati
 
 <code>PUT /wordAPI.php/ID
 {
