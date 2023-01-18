@@ -43,14 +43,14 @@ if(isUserRoomHost($userID, $roomID) && !isRoomActive($roomID)){
     header("Content-Length: $size");
     ob_flush();
     flush();
-*/  
+*/
     echo json_encode($result);
     if($result['status'] == "success"){
         try{
             $wordArray = randomWord(); //First element is the ID, the second is the actual word
             $wordID = $wordArray[0]; 
             $word = strtolower($wordArray[1]);
-            $resultMask = pow(2, strlen($word)+1) - 1;
+            $resultMask = pow(2, strlen($word)+1) - 1; //the mask where all bits are set to one
             $gameID = createGame($maxLives, $maxTime, $wordID, $roomID);
             connectAllUsers($gameID, $roomID);
             $gameQueue = new gameQueue($gameID, $conn);
@@ -75,15 +75,16 @@ if(isUserRoomHost($userID, $roomID) && !isRoomActive($roomID)){
                     echo "wrong word ".$gameID." ".$turnPlayer." ".$lastGuessID." ".$row['ID_guess']."\n";
                     $lastGuessID = $row['ID_guess'];
                     $guessedWord = strtolower($row['word']);
+                    //
                     $bitMask = 1;
                     for ($index = 0; $index < strlen($word); $index++) {
-                        $bitMask *= 2;
+                        $bitMask *= 2; //A ogni iterazione la bit mask viene shiftata di un posto a sinistra
                         if(isset($guessedWord[$index]) && $word[$index] == $guessedWord[$index]){
-                            $bitMask += 1;
+                            $bitMask += 1; //La lettera considerata in questo momento è corretta quindi si setta il bit a 1
                         }
                         //echo "\n".$index." ".$word[$index]." ".$guessedWord[$index]." ".$bitMask."\n"; 
                     }
-                    $oldBitMask = $oldBitMask | $bitMask;
+                    $oldBitMask = $oldBitMask | $bitMask; //viene unita la bitmask appena trovata con quella calcolata fino ad ora
                     
                     $stmt = $conn->prepare("UPDATE game SET wordMask = ? WHERE ID_game = ?");    
                     $stmt->bind_param("ss", $oldBitMask, $gameID);
@@ -173,7 +174,7 @@ class gameQueue {
 
     public function next(){
         $nextUser = $this->queue[($this->currentTurn + 1) % $this->size];
-  
+        //itera eliminando tutti i giocatori non più connessi, finché non ne trova uno connesso.
         while(!isUserInGame($nextUser, $this->gameID)){
           $this->removeElement($this->currentTurn);
           echo $this->size."\n";
