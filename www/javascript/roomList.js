@@ -36,7 +36,7 @@ function buildTable(){
 }
 
 function connectRoom(){
-    roomID = this.id; //this corrisponde all'oggetto che ha fatto partire la funzione, in questo caso il div che è stato cliccato, il cui id è proprio l'id della stanza.
+    var roomID = this.id; //this corrisponde all'oggetto che ha fatto partire la funzione, in questo caso il div che è stato cliccato, il cui id è proprio l'id della stanza.
     $.ajax({
         url: "../backend/roomConnection.php",
         method: "POST",
@@ -54,7 +54,7 @@ function connectRoom(){
                 document.getElementById(roomID).innerHTML = "";
                 
             }
-            else if (message.status == "closed"){
+            else if (message.status == "error"){
                 $("#error").html("Errore del server");
             }
         });

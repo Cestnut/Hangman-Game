@@ -5,7 +5,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/backend/conn.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/backend/functions/roomFunctions.php");
 
 $room_ID = $_POST['roomID'];
-if($room_ID && $_SESSION['userID']){
+if($room_ID && isset($_SESSION['userID'])){
 
 $response = array();
 try{

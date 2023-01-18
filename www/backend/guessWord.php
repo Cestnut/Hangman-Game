@@ -8,6 +8,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/backend/functions/gameFunctions.php");
     $word = htmlspecialchars($_POST['word']);
 
     if($gameID != '' && $word != '' && isset($_SESSION)){
+        $conn->begin_transaction();
         if (isGameActive($gameID) && isPlayerTurn($userID, $gameID)){
             $stmt = $conn->prepare("SELECT * FROM game_partecipation WHERE ID_game = ? AND ID_user = ?");
             $stmt->bind_param("ss", $gameID, $userID);
@@ -15,7 +16,6 @@ require_once($_SERVER['DOCUMENT_ROOT']."/backend/functions/gameFunctions.php");
             $row = $stmt->get_result()->fetch_assoc();
             
             //This ensures that a user will only be able to input a single word during their turn
-            $conn->begin_transaction();
 
             $stmt = $conn->prepare("INSERT INTO guess (word, ID_game_partecipation) VALUES (?,?)");
             $stmt->bind_param("ss", $word, $row['ID_game_partecipation']);
@@ -25,7 +25,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/backend/functions/gameFunctions.php");
             $stmt->bind_param("s", $gameID);
             $stmt->execute();
 
-            $conn->commit();
         }
+        $conn->commit();
     }
 ?>

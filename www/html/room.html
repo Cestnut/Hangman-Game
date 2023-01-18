@@ -10,7 +10,9 @@
 </head>
 <body>
     <button type="button" id="leaveRoom">Leave</button>
+
     <div id="roomName"></div>
+
     <div id="chat">
         <div id="messages"></div>
         <div id="newMessage" contenteditable="true"></div>
@@ -32,13 +34,15 @@
             <button type="button" id="startGame">Start</button>
         </form>
     </div>
+    
     <div id="gameContainer" hidden>
+        <div id ="finishMessage"></div>
         <div id="lives"></div>
         <div id="turn"></div>
         <div id="time"></div>
         <div id="letters"></div>
         <div id="guesses"></div>
-        <form id="guessForm" hidden>
+        <form id="guessForm">
             <label for="guess">Guess</label>
             <input type="text" name="guess">
             <button type="button" id="sendGuess">Guess</button>
