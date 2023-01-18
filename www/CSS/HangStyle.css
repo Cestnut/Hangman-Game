@@ -1,7 +1,7 @@
 
 /* inizio stile della pagina Userhome*/
 
-.body-userHome {
+.body-site {
     background-color: lightblue;
     text-align: center;
 }
@@ -16,21 +16,26 @@ font-size: 18px; /* Dimensione del testo */
 font-weight: bold; /* Grassetto */
 text-align: center; /* Allinea il testo al centro */
 }
-/* Stile hover */
+/* Stile hover di create room */
 .create-room-btn:hover {
     background: linear-gradient(to right, #ff66cc, #ff0099); /*Colore degradè viola-rosa al passaggio del mouse */
 }
 .room-list-btn {
-    background-color: #FF8F00; /* Colore arancione scuro */
+    background: linear-gradient(to right, #FF8F00, #f8ac48); /* Colore arancione scuro */
     color: white; /* Colore del testo bianco */
     padding: 12px 20px; /* Spaziatura del bottone */
-    border: 2px solid #F57C00; /* Bordo arancione scuro */
+    border: 2px solid #ffffff; /* Bordo arancione scuro */
     border-radius: 25px; /* Angoli arrotondati */
     cursor: pointer; /* Cambia il cursore del mouse */
     font-size: 18px; /* Dimensione del testo */
     font-weight: bold; /* Grassetto */
     text-align: center; /* Allinea il testo al centro */
 }
+/* stile hover di room list */
+.room-list-btn:hover {
+    background: linear-gradient(to right, #f8ac48, #FF8F00); /* Colore arancione scuro */ /*Colore grigio scuro al passaggio del mouse */
+}
+
 .logout-btn {
     background-color: #F44336; /* Colore rosso */
     color: white; /* Colore del testo bianco */
@@ -42,10 +47,11 @@ text-align: center; /* Allinea il testo al centro */
     font-weight: bold; /* Grassetto */
     text-align: center; /* Allinea il testo al centro */
 }
-/* Stile hover */
-.room-list-btn:hover, .logout-btn:hover {
-    background-color: #BDBDBD; /*Colore grigio scuro al passaggio del mouse */
+/* Stile hover di logout */
+.logout-btn:hover {
+    background: linear-gradient(to right,  #ff0000, #ff4650); /* Colore arancione scuro */ /*Colore grigio scuro al passaggio del mouse */
 }
+
 .container {
     text-align: center; /* Allinea il contenitore al centro */
     margin: 230px; /* margine per mettere l'insieme di button al centro del container */
@@ -68,3 +74,8 @@ text-align: center; /* Allinea il testo al centro */
 }
 
 /* fine stile della pagina Userhome*/
+
+
+/* inizio stile della pagina: */
+
+
