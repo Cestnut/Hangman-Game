@@ -64,8 +64,21 @@ if (isUserInGame($userID, $gameID)){
         }
 
         if(!isGameActive($gameID)){
+            //Rifacendo la query perché essendo finita la partita potrebbe non esserci più un giocatore di turno
+            $stmt = $conn->prepare("SELECT * FROM game WHERE ID_game = ?");
+            $stmt->bind_param("s", $gameID);
+            $stmt->execute();
+            $row = $stmt->get_result()->fetch_assoc();
+
+            $result = array("word" => $word);
+            if($row['wordMask'] == (pow(2, strlen($word)+1) - 1)){ //controlla che la maschera abbia tutti i bit a 1
+                $result['status'] = "victory";
+            }
+            else{
+                $result['status'] = "defeat";
+            }
             echo "event: finish\n";
-            echo "data: ".$word."\n\n";
+            echo "data: ".json_encode($result)."\n\n";
             leaveGame($gameID, $userID);
             break;
         }

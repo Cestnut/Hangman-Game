@@ -9,7 +9,7 @@ function init(){
 }
 
 const urlParams = new URLSearchParams(window.location.search);
-const roomID = urlParams.get('roomID')
+const roomID = urlParams.get('roomID');
 
 const roomStatusSource = new EventSource('../backend/roomStatus.php?roomID='+roomID);
 roomStatusSource.addEventListener("newName", function(e) {
@@ -21,17 +21,13 @@ roomStatusSource.addEventListener("closed", function(e) {
             chatSource.close()    
             roomStatusSource.close()
             console.log("room closed");
-            //window.location = "../html/roomList.html";
+            window.location = "../html/roomList.html";
         });
 
 roomStatusSource.addEventListener("start", function(e) {
             console.log("game started");
             initGame(e.data);
         });
-
-        roomStatusSource.addEventListener("message", function(e) {
-            console.log(e.data);
-       });
 
 const chatSource = new EventSource('../backend/chat.php?roomID='+roomID);
 chatSource.addEventListener("message", function(e) {
@@ -140,7 +136,6 @@ function sendGuess(){
                 gameID:gameID
             }
         }).done(function(message) {
-                document.getElementById("guessForm").setAttribute("hidden", true);
                 console.log(message);
             });
     }
@@ -186,25 +181,40 @@ function initGame(ID){
          console.log(e.data);
     });
     
+    var timerID = 0;
     gameSource.addEventListener("turn", function(e) {
         $("#turn").html("Turno di " + e.data);
          console.log(e.data);
+         clearInterval(timerID);
+         timerID = startTimer();
+         console.log("timerID: "+timerID);
     });
     
     gameSource.addEventListener("yourTurn", function(e) {
-        document.getElementById("guessForm").removeAttribute("hidden");
-        startTimer();
         console.log(e.data);
     });
     
     gameSource.addEventListener("finish", function(e) {
-        document.getElementById("guesses").innerHTML = "";
-        document.getElementById("letters").innerHTML = "";
-        document.getElementById("gameContainer").setAttribute("hidden", true);
-        document.getElementById("roomContainer").removeAttribute("hidden");
-        gameSource.close();
-        gameSource = 0;
-        console.log(e.data);
+        clearInterval(timerID);
+        let result = JSON.parse(e.data)
+        console.log(result);
+        if(result.status == "victory"){
+            //victory
+            $("#finishMessage").html("Avete vinto! La parola era '" + result.word +"'");
+        }
+        else{
+            $("#finishMessage").html("Avete perso :( La parola era '" + result.word + "'");
+        }
+        setTimeout(function(){
+            $("#finishMessage").html("");
+            document.getElementById("guesses").innerHTML = "";
+            document.getElementById("letters").innerHTML = "";
+            document.getElementById("gameContainer").setAttribute("hidden", true);
+            document.getElementById("roomContainer").removeAttribute("hidden");
+            gameSource.close();
+            gameSource = 0;
+            console.log(e.data);
+        }, 5000);
     });
     
     gameSource.addEventListener("guess", function(e) {
@@ -227,17 +237,10 @@ function initGame(ID){
 
     function startTimer(){
         var i = maxTime;
-        var intervalID = setInterval(function() {
-            $("#time").html(i);
-            if (i == 0){
-                document.getElementById("guessForm").setAttribute("hidden", true);
-                clearInterval(intervalID);
-            }
-            else if(document.getElementById("guessForm").getAttribute("hidden")){ //this condition is true when a guess has already be sent.
-                clearInterval(intervalID);
-            }
-            else 
-                i--;
+        console.log("max Time: "+maxTime);
+        var timerID = setInterval(function() {
+            $("#time").html(i--);
         }, 1000);
+        return timerID;
       }
     }
