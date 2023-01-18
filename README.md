@@ -3,12 +3,12 @@
 Il progetto prevede la creazione di una versione online del gioco dell'impiccato. I giocatori avranno a disposizione un certo numero di tentativi per indovinare una parola scelta dal server, tra quelle presenti in una lista predefinita. Dopo ogni tentativo, il giocatore verrà informato su quanto la propria risposta si avvicini alla soluzione esatta.
 
 ## 1.1 Modalità di gioco
-I giocatori condividono Vite e Indizi, a turno provano a indovinare la parola. Ogni turno ha una durata limitata.
+I giocatori condividono Vite e Indizi, a turno provano a indovinare la parola. Ogni turno ha una durata limitata di tempo.
 
 ## 1.2 Stanze
 ### 1.2.1 Gestione
-Ogni utente al menù principale ha la possibilità di creare una stanza o unirsi a una già esistente. Alla creazione di una stanza l'utente deve fornire:
-- nome stanza (suggerito nomeutente's room)
+Gli utenti hanno la possibilità di creare una nuova stanza o unirsi a una esistente dal menù principale. 
+Durante la creazione di una stanza, è richiesto di inserire un nome per identificarla (suggerito "nomeutente's room").
 
 Il creatore di una stanza all'interno della stanza, prima di iniziare una partita deve fornire:
 - tempo massimo per il turno di ogni giocatore, tra 1 e 120 secondi.
@@ -21,7 +21,7 @@ Se il creatore della stanza esce, la stanza si chiude
 Un utente può unirsi alla stanza mentre una partita è in corso, ma non partecipa e non vede la partita.
 
 ### 1.2.2 Chat
-All'interno di ogni stanza di gioco è disponibile una chat in cui i giocatori possono comunicare, ogni messaggio è accompagnato dal nome del mittente.
+All'interno di ogni stanza di gioco, è disponibile una chat testuale che i giocatori potranno utilizzare per comunicare durante la partita, ogni messaggio è accompagnato dal nome del mittente.
 
 # 2 Risorse
 Saranno implementate REST API per interagire con le seguenti risorse:
@@ -30,11 +30,11 @@ Saranno implementate REST API per interagire con le seguenti risorse:
 - **Wordlist**
 
 # 3 Gioco
-Viene scelto l'ordine dei giocatori, che a ogni turno provano a indovinare la parola. In caso sia sbagliata viene persa una vita per tutti. Se il turno scade semplicemente si passa al giocatore successivo.
+Durante la partita, viene stabilito un ordine tra i giocatori. Ogni turno, ciascun giocatore cercherà di indovinare la parola segreta. In caso di errore verrà persa una vita per tutti i giocatori. Se il tempo per il turno scade, si passerà semplicemente al giocatore successivo.
 
 
 # 4 Database
-Per il salvataggio dei dati Il gioco si basa su un database SQL. Di seguito verranno mostrati il diagramma ER e lo schema relazionale.
+Il gioco utilizza un database SQL per la memorizzazione dei dati. Verranno presentati in seguito il diagramma ER (Entità-relazione) e lo schema relazionale.
 ## 4.1 Diagramma ER
 
 ![ER_Diagram](ER_Diagram.png)
@@ -96,14 +96,14 @@ ID_room e ID_user compongono la chiave primaria
 # 5 Applicazione
 Per la realizzazione dell'applicazione sono stati usati HTML, CSS, PHP, Javascript (utilizzando anche la libreria jQuery in particolar modo per le chiamate Ajax).
 
-Client e server comunicano tramite chiamate Ajax. In alcuni casi è necessario ci sia uno stream di comunicazione da server a client, realizzato tramite Server Sent Events (SSE).
+Client e server comunicano tramite chiamate Ajax. In alcuni casi è necessaria la presenza di uno stream di comunicazione da server a client, realizzato tramite Server Sent Events (SSE).
 ## 5.1 Javascript
 Javascript è il linguaggio di scripting client-side utilizzato per rendere dinamica la pagina e per inviare le richieste al server tramite AJAX.
 
 Di seguito verranno presentate i metodi e le tecniche usate più frequentemente.
 
 ### 5.1.1 window.onload
-Quando una pagina viene caricata, parte l'evento window.onload. Assegnando all'evento una funzione, otterremo il risultato che questa sarà invocata una volta che la pagina ha finito di caricare. Esempio:
+Quando una pagina viene caricata, si attiva l'evento "window.onload". Assegnando una funzione a questo evento, essa verrà eseguita una volta che la pagina ha finito di caricare. Ad Esempio:
 
 ```js
 window.onload = init;
@@ -116,15 +116,13 @@ function leave(){
     window.location = "../html/userHome.html";
 }
 ```
-Nella funzione init, viene aggiunto all'elemento con id "back" un listener per l'evento click.
-
-Dato che la funzione viene chiamata solo dopo che la pagina è stata caricata, siamo sicuri che l'elemento con id "back" esiste, ed evitiamo quindi comportamenti inaspettati.
+La funzione "init" viene utilizzata per assegnare un listener per l'evento click all'elemento con id "back", questo perché garantisce che l'elemento esiste nella pagina prima di assegnare l'evento. In questo modo si evitano possibili comportamenti imprevisti, poiché la funzione viene chiamata solo una volta che la pagina è stata completamente caricata.
 
 ### 5.1.2 Manipolazione DOM
-Il DOM (Document Object Model), è il modello con cui viene rappresentato il documento. Esso ha una forma ad albero, e tramite JavaScript è possibile manipolarne i nodi, aggiungendo modificando o eliminando elementi a runtime.
+Il DOM (Document Object Model), è il modello con cui viene rappresentato il documento. Esso ha una forma ad albero, e tramite JavaScript è possibile manipolarne i nodi aggiungendo, modificando o eliminando elementi a runtime.
 
 Ciò viene fatto ad esempio per popolare la pagina roomList con tutte le stanze aperte.
-message.payload è una lista di oggetti JSON nella forma {"ID_room":ID, "name":name}.
+"message.payload" è una lista di oggetti JSON nella forma {"ID_room":ID, "name":name}.
 ```js
 message.payload.forEach(function (room) {
   var container = document.getElementById("roomList");
@@ -164,9 +162,9 @@ $.ajax({
         });
 ```
 Il metodo prende come parametro un oggetto con i seguenti attributi:
-- url: URL della pagina verso cui effettuare la richiesta
-- method: metodo HTTP da utilizzare
-- data: oggetto con i dati da mandare
+- url: URL della pagina verso cui effettuare la richiesta.
+- method: metodo HTTP da utilizzare.
+- data: oggetto con i dati da mandare.
 
 Viene poi richiamato il metodo <bold>done()</bold> dell'oggetto ritornato da ajax(). Questo metodo prende come parametro una funzione da eseguire quando il server risponde. Il parametro di quest'ultima funzione è la risposta del server.
 
@@ -189,15 +187,16 @@ $conn = new mysqli($servername, $username, $password, $database);
 ```
 
 ### 5.2.2 settings.php
-In questo file si trovano le chiamate a funzione che modificano le impostazioni dello script in esecuzione.
-In particolare abbiamo:
+In questo file vengono effettuate chiamate alle funzioni che modificano le impostazioni dello script in esecuzione. In particolare, le chiamate:
+
 ```php
 ini_set("display_errors", 1);
 ini_set("display_startup_errors", 1);
 ```
-Che dicono di printare gli errori incontrati durante l'esecuzione e lo startup dello script. Chiaramente andrebbero tenuti disattivati in un ambiente di produzione.
 
-Sarebbe equivalente modificare il file php.ini
+Permettono di stampare gli errori incontrati durante l'esecuzione e lo startup dello script. Chiaramente vengono disattivati in un ambiente di produzione, poiché potrebbero rivelare informazioni sensibili.
+
+Questo può essere ottenuto anche modificando il file php.ini, dove ci sono le impostazioni generali per l'intero server PHP.
 
 ```php
 set_time_limit(0);
@@ -224,7 +223,7 @@ Si ottiene poi il risultato come array associativo (in questo caso era implicito
 ## 5.2.4 Server Sent Events
 Server Sent Events (SSE) è una tecnologia che consente a un client di aprire un canale di comunicazione unidirezionale con un server, e ottenerne periodicamente degli aggiornamenti.
 
-Il mime type per SSE è text/event-stream, e viene specificato dal server tramite la funzione header(). In JavaScript esiste l'oggetto EventSouce che permette di aprire una connessione persistente verso un un server SSE.
+Il mime type per SSE è text/event-stream, e viene specificato dal server tramite la funzione header(). In JavaScript esiste l'oggetto EventSouce che permette di aprire una connessione persistente verso un server SSE.
 
 Prenderemo come esempio la gestione della chat, analizzando prima il lato server:
 
@@ -234,7 +233,7 @@ Prenderemo come esempio la gestione della chat, analizzando prima il lato server
     header('Cache-Control: no-cache');
     . . .
 ```
-Vengono fatti i dovuti controlli (in questo caso controllare se l'utente è connesso alla stanza) e viene poi aperto lo stream.
+Vengono effettuati i dovuti controlli (in questo caso controllare se l'utente è connesso alla stanza) e viene poi aperto lo stream.
 
 
 ```php
@@ -347,7 +346,7 @@ if(password_verify($password1, $password2)){
   $_SESSION['username'] = $row['username'];
 }
 ``` 
-Per il controllo della password viene utilizzata la funzione built-in di php password_verify().
+Per il controllo della password viene utilizzata la funzione built-in di php "password_verify()".
 Se il controllo va a buon fine viene settato a "success" il messaggio di ritorno verso il client, e vengono inizializzati i campi della sessione.
 
 ### 5.4.3 userHome
@@ -370,7 +369,7 @@ La lista delle stanze si trova all'interno di un div.
 ```
 Il div viene popolato dalla funzione buildTable, chiamata al caricamento della pagina.
 
-Prima di tutto effettua una richiesta HTTP GET alla risorsa Room, specificando il parametro url ?status=open.
+Prima di tutto effettua una richiesta HTTP GET alla risorsa Room, specificando il parametro url "?status=open".
 ```js
 $.ajax({
         url: "../backend/restAPI/roomAPI.php",
