@@ -1,0 +1,13 @@
+.entry{
+    display: flex;
+    background-color: #4CAF50;
+    margin: 0.3%;
+    width: 50%;
+    height: 50px;
+    justify-content: center;    
+    align-items: center;
+}
+
+.entry:hover{
+    background-color: green;
+}

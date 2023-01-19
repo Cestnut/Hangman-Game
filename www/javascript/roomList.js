@@ -26,6 +26,7 @@ function buildTable(){
                     var row = document.createElement("div");
                     row.setAttribute("id", room.ID_room);    
                     row.setAttribute("name", room.name);
+                    row.classList.add('entry');
                     row.innerHTML = room.name;
                     row.addEventListener("click", connectRoom);
 

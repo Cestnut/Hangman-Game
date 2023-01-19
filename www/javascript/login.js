@@ -19,6 +19,7 @@ function login(){
             password:password,
         }
       }).done(function(message) {
+        console.log(message);
             if(message == "success"){
                 window.location = "../html/userHome.html";
             }
@@ -33,5 +34,5 @@ function login(){
 }
 
 function errorLogin(message){
-    $("#errorLogin").html(message);
+    $("#errors").html(message);
 }

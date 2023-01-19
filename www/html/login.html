@@ -6,53 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
     <script src="../javascript/login.js"></script>
-    <link rel="stylesheet" href="../CSS/signup_login.css">
-    <title>Document</title>
-    <style>
-        h3 {/* stile per frase di invito */
-            text-align: center;
-            font-size: 20px;
-            margin-bottom: 20px;
-            font-family: 'Karnak Condensed', sans-serif, Arial, Helvetica, sans-serif;
-            color: rgba(255, 255, 255, 0.628); /* bianco */
-        }
-        h2 {/* stile per nome gioco logo */
-            text-align: center;
-            font-size: 40px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            font-family: 'Karnak Condensed', sans-serif, Arial, Helvetica, sans-serif;
-            color: #fff; /* bianco */
-        }
-    </style>
+    <link rel="stylesheet" href="../CSS/general.css">
+    <link rel="stylesheet" href="../CSS/general.css">
+    <title>Login</title>
 </head>
 <body class="body-site-signup">
-    <h3>entra e gioca a..</h3>
-    <h2>Hangman!</h2>
+    <div class="title">Login</div>
     <form name="loginForm" id="loginForm" class="form-container">
-        
-        <div class="username-style">
-            <label class="label-style" for="username"></label>
-            <input class="input-style" placeholder="username" type="text" name="username">
-        </div>
-        
-        <div class="password-style">
-            <label for="password" class="label-style"></label>
-            <input class="input-style" placeholder="password" type="password" name="password">
-        </div>
-            
+        <div id="errors" class = "errors"></div>
+        <input class="input-style" placeholder="username" type="text" name="username">
+        <input class="input-style" placeholder="password" type="password" name="password">
         <button type="button" id="loginButton" class="button-style">Login</button>
-        <div id="errorLogin"></div>
-
         <a href="signup.html" class="link-style">Registrati</a>
     </form>
-    
-
-
-    <!-- l' ho lasciato perchè magari se lo tolgo spunta qualche problema, messo nel form per lo stile. -->
-    <a href="signup.html">Registrati da togliere</a> 
-
-
-
 </body>
 </html>
