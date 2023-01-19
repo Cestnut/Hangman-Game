@@ -1,0 +1,82 @@
+/* inizio stile della pagina: signup e registrazione */
+
+
+/* Imposta lo sfondo della pagina su lightblue */
+.body-site-signup {
+    background-color: #121213 ;
+    font-family: Arial, sans-serif; /* Utilizza Arial come font di testo generico */
+}
+
+/* Centra il form sulla pagina */
+.form-container {
+    /* Allinea gli elementi in modo verticale */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+   
+    margin: auto; /* Aggiunge un margine intorno al form */
+    width: 18%; /* Imposta la larghezza del box al 80% della larghezza della pagina */
+    border-radius: 10px; /* Aggiunge angoli arrotondati al box */
+    background-color: #121213 ; /* Imposta il colore dello sfondo del box su una sfumatura di azzurro chiaro */
+    box-shadow: 0px 0px 20px rgba(23, 23, 23, 0.5); /* Aggiunge un'ombra al box */
+    padding: 20px; /* Imposta un padding interno */
+    border: 2px solid #818384; /* colore del bordo del box e spessore */
+}
+
+/* Modifica l'aspetto dei label */
+.label-style {
+    font-size: 20px;/* Aumenta la dimensione del font */
+    margin-bottom: 10px;/* Aggiunge un margine sotto il label */
+}
+
+/* Modifica l'aspetto degli input */
+.input-style {
+
+    padding: 12px 20px; /* Aggiunge un padding intorno al testo */
+    margin-bottom: 20px; /* Aggiunge un margine sotto l'input */
+    font-size: 16px; /* Aumenta la dimensione del font */
+    border: 2px solid rgb(215, 215, 215);  /* Rimuove il bordo */
+    border-radius: 4px;     /* Aggiunge un bordo arrotondato */
+    background-color: #141618; /* colore scuro simile al nero */
+    color: #fff; /* testo bianco */
+
+}
+
+/* Modifica il colore del testo del placeholder */
+::-webkit-input-placeholder { /* per Chrome, Safari e Opera */
+    color:  rgba(255, 255, 255, 0.628); /* testo bianco */
+}
+
+:-moz-placeholder { /* per Firefox */
+    color:  rgba(255, 255, 255, 0.628); /* testo bianco */
+}
+
+::-moz-placeholder { /* per Firefox */
+    color:  rgba(255, 255, 255, 0.628); /* testo bianco */
+}
+
+:-ms-input-placeholder { /* per Internet Explorer */
+    color:  rgba(255, 255, 255, 0.628); /* testo bianco */
+}
+
+
+
+/* Modifica l'aspetto del pulsante di invio */
+.button-style {
+    background-color: #4CAF50; /* Imposta il colore di sfondo su verde */
+    color: white; /* Imposta il colore del testo su bianco */
+    padding: 14px 20px; /* Aggiunge un padding intorno al testo */
+    margin-bottom: 20px; /* Aggiunge un margine sotto il bottone */
+    border: none;  /* Rimuove il bordo */
+    border-radius: 4px;  /* Aggiunge un bordo arrotondato */
+    cursor: pointer; /* Cambia il cursore del mouse */
+}
+
+/* Modifica l'aspetto del link */
+.link-style {
+    
+    font-size: 16px;/* Aumenta la dimensione del font */
+    color: #e5e5e5;/* Imposta il colore del testo su blu */
+    text-decoration: none;/* Rimuove la sottolineatura */
+}

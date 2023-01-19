@@ -6,34 +6,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
     <script src="../javascript/signup.js"></script>
-    <link rel="stylesheet" href="../CSS/HangStyle.css">
-    <link rel="stylesheet" type="text/css" href="../css/general.css">
+    <link rel="stylesheet" href="../CSS/signup_login.css">
     <title>Document</title>
+    <style>
+        h3 {/* stile per frase di invito */
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-family: 'Karnak Condensed', sans-serif, Arial, Helvetica, sans-serif;
+            color: rgba(255, 255, 255, 0.628); /* bianco */
+        }
+        h2 {/* stile per nome gioco logo */
+            text-align: center;
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-family: 'Karnak Condensed', sans-serif, Arial, Helvetica, sans-serif;
+            color: #fff; /* bianco */
+        }
+    </style>
 </head>
-<body class="body-site">
+<body class="body-site-signup">
     <div id="errors"></div>
-    <form name="signupForm" id="signupForm">
-        <div id="username">
-            <label for="username">Username</label>
-            <input type="text" name="username">
+    <h3>Registrati per giocare a..</h3>
+    <h2>Hangman!</h2>
+    <form name="signupForm" id="signupForm" class="form-container">
+        <div class="username-style">
+            <label for="username" class="label-style"></label>
+            <input placeholder="username" type="text" name="username" class="input-style">
         </div>
         
-        <div id="password">
+        <div class="password-style">
             <div>
-                <label for="password">Password</label>
-                <input type="password" name="password">
+                <label type="hidden" for="password" class="label-style"></label>
+                <input placeholder="password" type="password" name="password" class="input-style">
             </div>
                 
             <div>
-                <label for="confirmPassword">Conferma Password</label>
-                <input type="password" name="confirmPassword">
+                <label for="confirmPassword" class="label-style"></label>
+                <input placeholder="conferma password" type="password" name="confirmPassword" class="input-style">
             </div>
         </div>
 
-        <button type="button" id="signupButton">Registrati</button>
+        <button type="button" id="signupButton" class="button-style">Registrati</button>
 
         <div>
-            <a href="../html/login.html">Effettua il login</a>
+            <a href="../html/login.html" class="link-style">Effettua il login</a>
         </div>
 
     </form>
