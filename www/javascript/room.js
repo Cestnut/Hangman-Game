@@ -81,7 +81,7 @@ function leave(){
     }
 
 function startGame(){
-
+    $("#error").html("");
     let form = $("#startGameForm");
     let maxLives = form.find("[name='maxLives']").val(); 
     let maxTime = form.find("[name='maxTime']").val(); 
@@ -94,14 +94,15 @@ function startGame(){
             roomID:roomID
         }
       }).done(function(message) {
-            if(message == "success"){
+        console.log(message);
+
+            message = JSON.parse(message);
+            if(message.status == "success"){
                 console.log("Partita iniziata");
             }
-            else if(message == "wrong_fields"){
+            else if(message.status == "not_valid"){
+                $("#error").html(message.payload);
                 console.log("Campi errati");
-            }
-            else if(message == "error"){
-                console.log("Server Error");
             }
             console.log(message);
 
