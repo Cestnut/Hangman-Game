@@ -14,9 +14,7 @@ if(isset($_POST)){
         
         $row = $stmt->get_result()->fetch_assoc();
 
-        $password2 = $row['password'];
-
-        if(password_verify($password1, $password2)){
+        if(isset($row['password']) && password_verify($password1, $row['password'])){
             $status = "success";
             $_SESSION['userID'] = $row['ID_user'];
             $_SESSION['role'] = $row['role'];
