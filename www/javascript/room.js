@@ -180,14 +180,16 @@ function initGame(ID){
     gameSource.addEventListener("lives", function(e) {
         $("#lives").html(e.data);
          console.log(e.data);
+         //La gestione del reset del timer è inserita qui perché il cambio vite coincide con la fine del turno. L'evento "turn" non accade se un utente gioca da solo
+         clearInterval(timerID);
+         timerID = startTimer();
     });
     
     var timerID = 0;
     gameSource.addEventListener("turn", function(e) {
         $("#turn").html("Turno di " + e.data);
          console.log(e.data);
-         clearInterval(timerID);
-         timerID = startTimer();
+         
          console.log("timerID: "+timerID);
     });
     
