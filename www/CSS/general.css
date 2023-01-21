@@ -8,11 +8,11 @@ body {
 }
 
 .form-container {
-    /* Allinea gli elementi in modo verticale */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
+    /* Allinea gli elementi in modo verticale*/
+    display: flex;/* utilizzo flexbox layout */
+    flex-direction: column;/* dispongo gli elementi in una colonna del box*/
+    justify-content: center;/* elementi centrati rispetto alla larghezza(contrario di align-items) */
+    
     margin: auto;
     width: 18%; 
     border-radius: 10px; /* Aggiunge angoli arrotondati al box */
@@ -38,7 +38,12 @@ body {
     background-color: #4CAF50; /* Imposta il colore di sfondo su verde */
     color: white; /* Imposta il colore del testo su bianco */
     padding: 14px 20px; /* Aggiunge un padding intorno al testo */
-    margin-bottom: 20px; /* Aggiunge un margine sotto il bottone */
+
+/* Aggiunge un margine sotto, destra e sinistra il bottone */
+        margin-bottom: 20px;
+        margin-left: auto;
+        margin-right: auto; 
+        
     border: none;  /* Rimuove il bordo */
     border-radius: 4px;  /* Aggiunge un bordo arrotondato */
     cursor: pointer; /* Cambia il cursore del mouse */
@@ -59,6 +64,7 @@ body {
     font-size: 16px;/* Aumenta la dimensione del font */
     color: #e5e5e5;/* Imposta il colore del testo su blu */
     text-decoration: none;/* Rimuove la sottolineatura */
+    margin: auto;
 }
 
 .errors {
