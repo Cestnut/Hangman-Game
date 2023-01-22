@@ -6,11 +6,20 @@ function init(){
     $("#leaveRoom").on("click", leave);
     $("#sendGuess").on("click", sendGuess);
     showGameForm();
-    //serve per ascoltare la tastiera, il tasto invio per la chat
+
+    //thilin serve per ascoltare la tastiera, il tasto invio per la chat
     document.getElementById("newMessage").addEventListener("keyup", function(event) {
         event.preventDefault();
         if (event.keyCode === 13) {
           document.getElementById("sendMessage").click();
+        }
+      });
+
+    //thilin serve per ascoltare la tastiera, il tasto invio per la guessbox
+      document.getElementById("newGuess").addEventListener("keyup", function(event) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+          document.getElementById("sendGuess").click();
         }
       });
 }
@@ -24,13 +33,21 @@ roomStatusSource.addEventListener("newName", function(e) {
             $("#roomName").html(e.data);
        });      
 
-//serve per ascoltare la tastiera, il tasto invio per la chat
+//thilin serve per ascoltare la tastiera, il tasto invio per la chat
        $("#newMessage").keypress(function(event) {
         if (event.which == 13) {
             event.preventDefault();
             $("#sendMessage").click();
         }
     });
+//thilin serve per ascoltare la tastiera, il tasto invio per il guessbox
+    $("#newGuess").keypress(function(event) {
+        if (event.which == 13) {
+            event.preventDefault();
+            $("#sendGuess").click();
+        }
+    });
+
 
 roomStatusSource.addEventListener("closed", function(e) {
             chatSource.close()    
@@ -71,7 +88,7 @@ function sendMessage(){
     var message =': ' +  $("#newMessage").html();
     $("#newMessage").html("");
     // sostituisco i vari tag con degli spazi.
-    var message = message.replace("<div>", " ").replace("<div><br></div>", " ").replace("<br>", " ").replace("&nbsp", " ").replace("</div>", " ").replace("<br />", " ");
+    var message = message.replace("<div>", " ").replace("<div><br></div>", " ").replace("<br>", " ").replace("&nbsp", " ").replace(" &nbsp", " ").replace("</div>", " ").replace("<br />", " ").replace(";", " ");
     console.log(message);
     $.ajax({
         url: "../backend/sendMessage.php",
@@ -194,7 +211,7 @@ function initGame(ID){
     });
     
     gameSource.addEventListener("lives", function(e) {
-        $("#lives").html(e.data);
+        $("#lives").html("Vite: " + e.data);
          console.log(e.data);
          //La gestione del reset del timer è inserita qui perché il cambio vite coincide con la fine del turno. L'evento "turn" non accade se un utente gioca da solo
          clearInterval(timerID);
@@ -243,11 +260,11 @@ function initGame(ID){
         var entry = document.createElement("div");
     
         var user = document.createElement("span");
-        user.innerHTML = entryJson.user;
+        user.innerHTML = "user " + entryJson.user;
         entry.appendChild(user);
 
         var text = document.createElement("span");
-        text.innerHTML = entryJson.word;
+        text.innerHTML = ": " + entryJson.word;
         entry.appendChild(text);
         
         container.appendChild(entry);
@@ -258,7 +275,7 @@ function initGame(ID){
         var i = maxTime;
         console.log("max Time: "+maxTime);
         var timerID = setInterval(function() {
-            $("#time").html(i--);
+            $("#time").html(i-- + " secondi rimanenti");
         }, 1000);
         return timerID;
       }

@@ -79,3 +79,11 @@ body {
     font-family: 'Karnak Condensed', sans-serif, Arial, Helvetica, sans-serif;
     color: #fff;
 }
+.pretitle{
+    text-align: left;
+    font-size: 15px;
+    font-weight: bold;
+
+    font-family: 'Karnak Condensed', sans-serif, Arial, Helvetica, sans-serif;
+    color: rgb(134, 134, 134);
+}
