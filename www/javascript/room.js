@@ -6,22 +6,6 @@ function init(){
     $("#leaveRoom").on("click", leave);
     $("#sendGuess").on("click", sendGuess);
     showGameForm();
-
-    //thilin serve per ascoltare la tastiera, il tasto invio per la chat
-    document.getElementById("newMessage").addEventListener("keyup", function(event) {
-        event.preventDefault();
-        if (event.keyCode === 13) {
-          document.getElementById("sendMessage").click();
-        }
-      });
-
-    //thilin serve per ascoltare la tastiera, il tasto invio per la guessbox
-      document.getElementById("newGuess").addEventListener("keyup", function(event) {
-        event.preventDefault();
-        if (event.keyCode === 13) {
-          document.getElementById("sendGuess").click();
-        }
-      });
 }
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -31,29 +15,13 @@ const roomStatusSource = new EventSource('../backend/roomStatus.php?roomID='+roo
 roomStatusSource.addEventListener("newName", function(e) {
             console.log(e.data);
             $("#roomName").html(e.data);
-       });      
-
-//thilin serve per ascoltare la tastiera, il tasto invio per la chat
-       $("#newMessage").keypress(function(event) {
-        if (event.which == 13) {
-            event.preventDefault();
-            $("#sendMessage").click();
-        }
-    });
-//thilin serve per ascoltare la tastiera, il tasto invio per il guessbox
-    $("#newGuess").keypress(function(event) {
-        if (event.which == 13) {
-            event.preventDefault();
-            $("#sendGuess").click();
-        }
-    });
-
+       }); 
 
 roomStatusSource.addEventListener("closed", function(e) {
             chatSource.close()    
             roomStatusSource.close()
             console.log("room closed");
-            window.location = "../html/roomList.html";
+            //window.location = "../html/roomList.html";
         });
 
 roomStatusSource.addEventListener("start", function(e) {
@@ -72,12 +40,15 @@ var gameID = 0;
 function writeChatMessage(messageJson){
     var container = document.getElementById("messages");
     var message = document.createElement("div");
-    
+    message.classList.add("message");
+
     var sender = document.createElement("span");
+    sender.classList.add("username");
     sender.innerHTML = messageJson.user;
     message.appendChild(sender);
 
     var text = document.createElement("span");
+    text.classList.add("content")
     text.innerHTML = messageJson.message;
     message.appendChild(text);
     
@@ -85,10 +56,8 @@ function writeChatMessage(messageJson){
 }
 
 function sendMessage(){
-    var message =': ' +  $("#newMessage").html();
+    var message = $("#newMessage").text();
     $("#newMessage").html("");
-    // sostituisco i vari tag con degli spazi.
-    var message = message.replace("<div>", " ").replace("<div><br></div>", " ").replace("<br>", " ").replace("&nbsp", " ").replace(" &nbsp", " ").replace("</div>", " ").replace("<br />", " ").replace(";", " ");
     console.log(message);
     $.ajax({
         url: "../backend/sendMessage.php",
@@ -159,8 +128,9 @@ function showGameForm(){
 
 function sendGuess(){
     
-    let form = $("#guessForm");
-    let word = form.find("[name='guess']").val();
+    let word = $("#newGuess").val(); 
+    $("#newGuess").val('');
+
     if(word.trim() != ""){
         $.ajax({
             url: "../backend/guessWord.php",
@@ -193,7 +163,8 @@ function initGame(ID){
         
         for (var key in letters) {
             var letterDiv = document.getElementById("letter"+key);
-            letterDiv.innerHTML = letters[key];
+            letterDiv.classList.add("guessed-letter");
+            letterDiv.innerHTML = letters[key].toUpperCase();
         }
         console.log(e.data);
     });
@@ -204,6 +175,7 @@ function initGame(ID){
         for (let i = 0; i < lenght; i++) {
                 var entry = document.createElement("div");
                 entry.setAttribute("id", "letter"+i);
+                entry.classList.add("letter");
                 entry.innerHTML = "<br>";
                 container.appendChild(entry);
             }
