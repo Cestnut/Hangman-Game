@@ -209,6 +209,12 @@ function initGame(ID){
         if(result.status == "victory"){
             //victory
             $("#finishMessage").html("Avete vinto! La parola era '" + result.word +"'");
+            for (let i = 0; i < result.word.length; i++) {
+                var letterDiv = document.getElementById("letter"+i);
+                letterDiv.classList.add("guessed-letter");
+                letterDiv.innerHTML = result.word[i].toUpperCase();
+            }
+            
         }
         else{
             $("#finishMessage").html("Avete perso :( La parola era '" + result.word + "'");
