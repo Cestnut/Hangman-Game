@@ -21,6 +21,7 @@ body {
     border-radius: 10px; /* angoli arrotondati */
     padding: 20px; /* padding interno */
     margin: auto;
+    
 }
 .chat-box::-webkit-scrollbar {
     width: 15px; /* larghezza della barra di scorrimento */
@@ -39,6 +40,17 @@ body {
     grid-column: 1 / 1; /* posiziona i messaggi nella prima colonna */
     overflow-wrap: break-word; /* fa andare a capo i messaggi troppo lunghi */
 }
+
+.username-chat {
+    color: #4CAF50; /* scegli un colore casuale */
+    font-weight: bold; /* rendi il testo in grassetto */
+    margin-right: 5px; /* aggiungi un margine a destra */
+    }
+    
+    .message-chat {
+    color: white; /* imposta il colore del testo su bianco */
+    margin-left: 5px; /* aggiungi un margine a sinistra */
+    }
 
 .chat-form {
     display: grid;

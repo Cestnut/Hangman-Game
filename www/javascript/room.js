@@ -6,6 +6,13 @@ function init(){
     $("#leaveRoom").on("click", leave);
     $("#sendGuess").on("click", sendGuess);
     showGameForm();
+    //serve per ascoltare la tastiera, il tasto invio per la chat
+    document.getElementById("newMessage").addEventListener("keyup", function(event) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+          document.getElementById("sendMessage").click();
+        }
+      });
 }
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -15,7 +22,15 @@ const roomStatusSource = new EventSource('../backend/roomStatus.php?roomID='+roo
 roomStatusSource.addEventListener("newName", function(e) {
             console.log(e.data);
             $("#roomName").html(e.data);
-       });       
+       });      
+
+//serve per ascoltare la tastiera, il tasto invio per la chat
+       $("#newMessage").keypress(function(event) {
+        if (event.which == 13) {
+            event.preventDefault();
+            $("#sendMessage").click();
+        }
+    });
 
 roomStatusSource.addEventListener("closed", function(e) {
             chatSource.close()    
@@ -53,9 +68,10 @@ function writeChatMessage(messageJson){
 }
 
 function sendMessage(){
-    var message = $("#newMessage").html();
+    var message =': ' +  $("#newMessage").html();
     $("#newMessage").html("");
-    
+    // sostituisco i vari tag con degli spazi.
+    var message = message.replace("<div>", " ").replace("<div><br></div>", " ").replace("<br>", " ").replace("&nbsp", " ").replace("</div>", " ").replace("<br />", " ");
     console.log(message);
     $.ajax({
         url: "../backend/sendMessage.php",
