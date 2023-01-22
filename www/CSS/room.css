@@ -8,14 +8,13 @@ body {
 }
 
 
-
 .chat-box {
     display: grid;
     grid-template-rows: 1fr auto; /* 1 parte per i messaggi e una parte per il form e il bottone */
     grid-template-columns: 1fr; /* 1 colonna per i messaggi, form e bottone */
     height: 75%;  /* altezza  per il box */
     width: 70%;
-    overflow-x: hidden;
+    overflow-x: scroll;
     overflow-y: scroll; /* permette solo di scorrere verticalmente */
     border: 2px solid #818384; /* bordo del box */
     border-radius: 10px; /* angoli arrotondati */
@@ -23,22 +22,16 @@ body {
     margin: auto;
     
 }
-.chat-box::-webkit-scrollbar {
-    width: 15px; /* larghezza della barra di scorrimento */
-    background-color: #3e3e3e; /* colore di sfondo della barra di scorrimento */
-}
-
-.chat-box::-webkit-scrollbar-thumb {
-  border-radius: 15px; /* angoli arrotondati per il cursore */
-  background-color: #898989; /* colore del cursore */
-}
 
 #messages {
-    width: 80%;
+    width: 70%;
     height: 75%; 
     grid-row: 1 / 2; /* posiziona i messaggi nella prima riga */
     grid-column: 1 / 1; /* posiziona i messaggi nella prima colonna */
     overflow-wrap: break-word; /* fa andare a capo i messaggi troppo lunghi */
+        color: white; /* imposta il colore del testo su bianco */
+        margin-left: 5px; /* aggiungi un margine a sinistra */
+
 }
 
 .username-chat {
@@ -47,10 +40,11 @@ body {
     margin-right: 5px; /* aggiungi un margine a destra */
     }
     
-    .message-chat {
+    .stats {
     color: white; /* imposta il colore del testo su bianco */
     margin-left: 5px; /* aggiungi un margine a sinistra */
     }
+
 
 .chat-form {
     display: grid;
@@ -72,6 +66,7 @@ body {
     padding: 13px; /* Imposta un padding interno */
     border: 2px solid #818384; /* colore del bordo del box e spessore */
     background-color: #121213; /* imposta un colore di sfondo */
+    color: white; /* imposta il colore del testo su bianco */
 }
 
 #sendMessage {
@@ -87,7 +82,6 @@ body {
     justify-self: end; /* allinea il bottone a destra rispetto al form */
 }
 
-
 * {
     box-sizing: border-box;
   }
@@ -102,6 +96,14 @@ body {
     display: table;
     clear: both;
   }
+
+  @media screen and (max-width: 650px) {
+    /* CSS da applicare quando la larghezza dello schermo è inferiore o uguale a 650px */
+    .column {
+        float: none;
+        width: 100%;
+    }
+ }
 
 .form-container {
     /* Allinea gli elementi in modo orizzontale*/
@@ -150,7 +152,7 @@ body {
 .button-style-invia {
     background-color: #4CAF50; /* Imposta il colore di sfondo su verde */
     color: white; /* Imposta il colore del testo su bianco */
-    padding: 14px 20px; /* Aggiunge un padding intorno al testo */
+    padding: 14px 14px; /* Aggiunge un padding intorno al testo */
     line-height: 0px; /* l unico modo per centrare il testo , per non andare il conflitto con altro*/
     border: none;  /* Rimuove il bordo */
     border-radius: 4px;  /* Aggiunge un bordo arrotondato */
@@ -257,6 +259,8 @@ body {
     padding: 13px; /* Imposta un padding interno */
     border: 2px solid #818384; /* colore del bordo del box e spessore */
     background-color: #121213; /* imposta un colore di sfondo */
+        color: white; /* imposta il colore del testo su bianco */
+        margin-left: 5px; /* aggiungi un margine a sinistra */
 }
 
 .guessbutton {
