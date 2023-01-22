@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
     <script src="../javascript/room.js"></script>
-
     <link rel="stylesheet" href="../CSS/room.css">
     <title>Room</title>
 </head>
@@ -22,7 +21,7 @@
                 <div class="pretitlechat">Impostazione partita:</div>
                 <form id="startGameForm" hidden class="form-container">
                     <div id="error" class="errors"></div>
-                    <div class="pretitle">Vite:</div>
+                    <label class="pretitle">Vite:</label>
                     <input type="number" min="0" name="maxLives" class="input-style" placeholder="Numero di vite">
                     <div class="pretitle">Durata turni:</div>
                     <input type="number" min="0" name="maxTime" class="input-style" placeholder="Durata turni (secondi)">                
@@ -30,19 +29,18 @@
                 </form>
             </div>
             <div id="gameContainer" hidden>
-                <div class="message-chat" id ="finishMessage"></div>
-                <div class="message-chat" id="lives"></div>
-                <div class="message-chat" id="turn"></div>
-                <div class="message-chat" id="time"></div>
-                <div class="message-chat" id="letters"></div>
+                <div class="stats" id ="finishMessage"></div>
+                <div class="stats" id="lives"></div>
+                <div class="stats" id="turn"></div>
+                <div class="stats" id="time"></div>
+                <div class="stats" id="letters"></div>
                 <div class="pretitle">Tentativi:</div>
                 <div class="guesses-box" id="guessbox">
-                    <div class="message-chat" id="guesses"></div>   
+                    <div class="stats" id="guesses"></div>   
                 </div>
-                <div class="message-chat" id="guesses"></div>
                 <form class="guess-input" id="guessForm">
                     <label for="guess"></label>
-                    <input class="message-chat" id="newGuess" contenteditable="true" type="text" name="guess">
+                    <input id="newGuess" contenteditable="true" type="text" name="guess">
                     <button class="guessbutton" type="button" id="sendGuess">Guess</button>
                 </form>
             </div>
@@ -51,11 +49,11 @@
 
         <div class="column">
             <div class="pretitlechat">Chat giocatori:</div>
-            <div class="chat-box" id="chat">
-                <div class="message-chat" id="messages"></div>
+            <div class="chat-box">
+                <div id="messages"></div>
             </div>
             <div class="chat-form">
-                <div class="message-chat" id="newMessage" contenteditable="true"></div>
+                <div id="newMessage" contenteditable="true"></div>
                 <button class="button-style-invia" type="button" id="sendMessage">Invia</button>
             </div>
         </div>
