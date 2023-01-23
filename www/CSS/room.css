@@ -1,6 +1,3 @@
-
-
-
 .chat-box {
     color: white; 
     height: 75%; 
@@ -40,19 +37,6 @@
     border: 2px solid #818384; /* colore del bordo del box e spessore */
     background-color: #121213; /* imposta un colore di sfondo */
     color: white; /* imposta il colore del testo su bianco */
-}
-
-#sendMessage {
-    color: white; /* Imposta il colore del testo su bianco */
-    margin-right: 28%;
-    width: 30%;
-    height: 20px;
-    margin-top: 15px;
-    margin-bottom: 15px;
- /* posiziona il bottone nella seconda riga */
-    grid-column: 2 / 3; /* posiziona il bottone nella prima colonna */
-    align-self: start; /* allinea il bottone in basso a destra */
-    justify-self: end; /* allinea il bottone a destra rispetto al form */
 }
 
 * {
@@ -152,7 +136,7 @@
     grid-template-columns: 1fr; /* 1 colonna per i messaggi, form e bottone */
     height: 200px;  /* altezza  per il box */
     width: 48%;
-    overflow-x: hidden;
+    overflow-x: scroll;
     overflow-y: scroll; /* permette solo di scorrere verticalmente */
     border: 2px solid #818384; /* bordo del box */
     border-radius: 10px; /* angoli arrotondati */
@@ -233,14 +217,6 @@
 
 .guessed-letter{
     background-color: green;
-}
-
-.messageGuess{
-    display: grid;
-    grid-template-columns: 45% 55%;
-    grid-column-gap: 5px;
-    padding: 5px;
-    border-bottom: 1px solid white;
 }
 
 .message{
