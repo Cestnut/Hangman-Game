@@ -231,6 +231,7 @@ function initGame(ID){
         }, 5000);
     });
     
+
     gameSource.addEventListener("guess", function(e) {
         console.log("guess");
         entryJson = JSON.parse(e.data);
@@ -238,11 +239,13 @@ function initGame(ID){
         var entry = document.createElement("div");
     
         var user = document.createElement("span");
-        user.innerHTML = "user " + entryJson.user;
+        user.classList.add("username");
+        user.innerHTML = entryJson.user;
         entry.appendChild(user);
 
         var text = document.createElement("span");
-        text.innerHTML = ": " + entryJson.word;
+        text.classList.add("content")
+        text.innerHTML = entryJson.word;
         entry.appendChild(text);
         
         container.appendChild(entry);

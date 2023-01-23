@@ -16,7 +16,7 @@ body {
     overflow-y: scroll; /* permette solo di scorrere verticalmente */
     border: 2px solid #818384; /* bordo del box */
     border-radius: 10px; /* angoli arrotondati */
-    padding: 20px; /* padding interno */
+    padding: 5px; /* padding interno */
     margin: auto;
 }
 
@@ -207,14 +207,15 @@ body {
     grid-template-rows: 1fr auto; /* 1 parte per i messaggi e una parte per il form e il bottone */
     grid-template-columns: 1fr; /* 1 colonna per i messaggi, form e bottone */
     height: 200px;  /* altezza  per il box */
-    width: 350px;
+    width: 48%;
     overflow-x: hidden;
     overflow-y: scroll; /* permette solo di scorrere verticalmente */
     border: 2px solid #818384; /* bordo del box */
     border-radius: 10px; /* angoli arrotondati */
-    padding: 20px; /* padding interno */
+    padding: 2px; /* padding interno */
     margin-top: auto;
     margin-bottom: auto; 
+    color: white;
 }
 .button-style-guess {
     background-color: #4CAF50; /* Imposta il colore di sfondo su verde */
@@ -292,9 +293,17 @@ body {
     background-color: green;
 }
 
+.messageGuess{
+    display: grid;
+    grid-template-columns: 45% 55%;
+    grid-column-gap: 5px;
+    padding: 5px;
+    border-bottom: 1px solid white;
+}
+
 .message{
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 45% 55%;
     grid-column-gap: 5px;
     padding: 10px;
     border-bottom: 1px solid white;
