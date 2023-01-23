@@ -30,7 +30,7 @@ if(isUserRoomHost($userID, $roomID) && !isRoomActive($roomID)){
         $result["status"] = "not_valid";
         $result["payload"] = "The input must be numbers";
     }
-/*
+
     header("Connection: close\r\n");
     ignore_user_abort(true);
     
@@ -43,7 +43,7 @@ if(isUserRoomHost($userID, $roomID) && !isRoomActive($roomID)){
     header("Content-Length: $size");
     ob_flush();
     flush();
-*/
+
     echo json_encode($result);
     if($result['status'] == "success"){
         try{
