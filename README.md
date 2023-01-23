@@ -1,6 +1,6 @@
-# 1 Idea yo
+# 1 Idea
 
-Il progetto prevede la creazione di una versione online del gioco dell'impiccato. I giocatori avranno a disposizione un certo numero di tentativi per indovinare una parola scelta dal server, tra quelle presenti in una lista predefinita. Dopo ogni tentativo, il giocatore verrà informato su quanto la propria risposta si avvicini alla soluzione esatta.
+Il progetto prevede la creazione di un gioco ispirato a quello dell'impiccato. I giocatori avranno a disposizione un certo numero di tentativi per indovinare una parola scelta dal server, tra quelle presenti in una lista predefinita. Dopo ogni tentativo, il giocatore verrà informato su quanto la propria risposta si avvicini alla soluzione esatta.
 
 ## 1.1 Modalità di gioco
 I giocatori condividono Vite e Indizi, a turno provano a indovinare la parola. Ogni turno ha una durata limitata di tempo.
@@ -8,7 +8,7 @@ I giocatori condividono Vite e Indizi, a turno provano a indovinare la parola. O
 ## 1.2 Stanze
 ### 1.2.1 Gestione
 Gli utenti hanno la possibilità di creare una nuova stanza o unirsi a una esistente dal menù principale. 
-Durante la creazione di una stanza, è richiesto di inserire un nome per identificarla (suggerito "nomeutente's room").
+Durante la creazione di una stanza, è richiesto di inserire un nome per identificarla
 
 Il creatore di una stanza all'interno della stanza, prima di iniziare una partita deve fornire:
 - tempo massimo per il turno di ogni giocatore, tra 1 e 120 secondi.
@@ -23,15 +23,16 @@ Un utente può unirsi alla stanza mentre una partita è in corso, ma non parteci
 ### 1.2.2 Chat
 All'interno di ogni stanza di gioco, è disponibile una chat testuale che i giocatori potranno utilizzare per comunicare durante la partita, ogni messaggio è accompagnato dal nome del mittente.
 
-# 2 Risorse
+# 2 Gioco
+All'inizio della partita, viene stabilito casualmente un ordine tra i giocatori. Ogni turno, ciascun giocatore cercherà di indovinare la parola segreta e in caso di errore verrà persa una vita per tutti i giocatori. 
+
+Se il tempo per il turno scade o il giocatore si disconnette, si passerà al giocatore successivo e verrà persa una vita.
+
+# 3 Risorse
 Saranno implementate REST API per interagire con le seguenti risorse:
 - **User**
 - **Room**
 - **Wordlist**
-
-# 3 Gioco
-Durante la partita, viene stabilito un ordine tra i giocatori. Ogni turno, ciascun giocatore cercherà di indovinare la parola segreta. In caso di errore verrà persa una vita per tutti i giocatori. Se il tempo per il turno scade, si passerà semplicemente al giocatore successivo.
-
 
 # 4 Database
 Il gioco utilizza un database SQL per la memorizzazione dei dati. Verranno presentati in seguito il diagramma ER (Entità-relazione) e lo schema relazionale.
@@ -230,7 +231,6 @@ Prenderemo come esempio la gestione della chat, analizzando prima il lato server
 ```php
     . . .
     header('Content-Type: text/event-stream');
-    header('Cache-Control: no-cache');
     . . .
 ```
 Vengono effettuati i dovuti controlli (in questo caso controllare se l'utente è connesso alla stanza) e viene poi aperto lo stream.
