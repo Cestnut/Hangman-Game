@@ -14,9 +14,6 @@ if (isUserInRoom($userID, $roomID)){
     header('Content-Type: text/event-stream');
     header('Cache-Control: no-cache');
     
-    define('HEARTBEAT_PERIOD', 500000); //after how many seconds send an heartbeat signal
-    $heartbeatTime = time();
-
     $roomName = "";
     $startEventSent = 0;
     $loop = true;
@@ -26,7 +23,6 @@ if (isUserInRoom($userID, $roomID)){
         }
         startEvent($gameID, $roomID, $userID);
         newNameEvent($roomID);
-        checkTimeout($roomID, $userID);
         ob_flush(); //Necessary to send data to the php buffer ready to send. If this wasn't used, no data would arrive to client until the script stopped
         flush(); //Flushes content from php buffer to client
         sleep(1);
@@ -72,19 +68,5 @@ function newNameEvent($roomID){
             echo "event: newName\n";
             echo 'data: ' .$roomName. "\n\n";
         }
-}
-
-function checkTimeout($roomID, $userID){
-    global $heartbeatTime;
-    if(time() > $heartbeatTime + HEARTBEAT_PERIOD){
-        echo "data: heartbeat\n\n"; //Used by the webserver to know if the connection was closed by the client, in case new messages are never found
-        ob_flush(); 
-        flush();
-        $heartbeatTime = time();
-        if(connection_aborted()){ //returns true if the server detected client disconnection. Namely after a message was sent and the client didn't acknowledge.
-            leaveRoom($roomID, $userID);
-            return true;
-        }
-    }
 }
 ?>

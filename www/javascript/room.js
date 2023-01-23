@@ -1,5 +1,5 @@
 window.onload = init
-
+addEventListener('beforeunload', leave);
 function init(){
     $("#sendMessage").on("click", sendMessage);
     $("#startGame").on("click", startGame);
@@ -13,19 +13,16 @@ const roomID = urlParams.get('roomID');
 
 const roomStatusSource = new EventSource('../backend/roomStatus.php?roomID='+roomID);
 roomStatusSource.addEventListener("newName", function(e) {
-            console.log(e.data);
             $("#roomName").html(e.data);
        }); 
 
 roomStatusSource.addEventListener("closed", function(e) {
             chatSource.close()    
             roomStatusSource.close()
-            console.log("room closed");
-            //window.location = "../html/roomList.html";
+            window.location = "../html/roomList.html";
         });
 
 roomStatusSource.addEventListener("start", function(e) {
-            console.log("game started");
             initGame(e.data);
         });
 
@@ -58,16 +55,13 @@ function writeChatMessage(messageJson){
 function sendMessage(){
     var message = $("#newMessage").text();
     $("#newMessage").html("");
-    console.log(message);
     $.ajax({
         url: "../backend/sendMessage.php",
         method: "post",
         data:{
             message:message,
             roomID:roomID
-        }}).done(function(result) {
-            console.log(result);
-        });
+        }})
 }
 
 function leave(){
@@ -95,17 +89,13 @@ function startGame(){
             roomID:roomID
         }
       }).done(function(message) {
-        console.log(message);
 
             message = JSON.parse(message);
             if(message.status == "success"){
-                console.log("Partita iniziata");
             }
             else if(message.status == "not_valid"){
                 $("#error").html(message.payload);
-                console.log("Campi errati");
             }
-            console.log(message);
 
         });
 }
@@ -141,7 +131,6 @@ function sendGuess(){
                 gameID:gameID
             }
         }).done(function(message) {
-                console.log(message);
             });
     }
 }
@@ -156,7 +145,6 @@ function initGame(ID){
 
     gameSource.addEventListener("time", function(e) {
         maxTime = e.data;
-        console.log(e.data);
     }); 
     
     gameSource.addEventListener("letters", function(e) {
@@ -167,7 +155,6 @@ function initGame(ID){
             letterDiv.classList.add("guessed-letter");
             letterDiv.innerHTML = letters[key].toUpperCase();
         }
-        console.log(e.data);
     });
 
     gameSource.addEventListener("wordLenght", function(e) {
@@ -180,12 +167,10 @@ function initGame(ID){
                 entry.innerHTML = "<br>";
                 container.appendChild(entry);
             }
-        console.log(e.data);
     });
     
     gameSource.addEventListener("lives", function(e) {
         $("#lives").html("Vite: " + e.data);
-         console.log(e.data);
          //La gestione del reset del timer è inserita qui perché il cambio vite coincide con la fine del turno. L'evento "turn" non accade se un utente gioca da solo
          clearInterval(timerID);
          timerID = startTimer();
@@ -202,19 +187,14 @@ function initGame(ID){
             $("#guessForm").show();
             $("#time").show();
         }
-        console.log("payload");
-        console.log(e.data);
-        console.log("timerID: "+timerID);
     });
     
     gameSource.addEventListener("yourTurn", function(e) {
-        console.log(e.data);
     });
     
     gameSource.addEventListener("finish", function(e) {
         clearInterval(timerID);
         let result = JSON.parse(e.data)
-        console.log(result);
         if(result.status == "victory"){
             //victory
             $("#finishMessage").html("Avete vinto! La parola era '" + result.word +"'");
@@ -237,13 +217,11 @@ function initGame(ID){
             $("#gameContainer").hide();
             gameSource.close();
             gameSource = 0;
-            console.log(e.data);
         }, 5000);
     });
     
 
     gameSource.addEventListener("guess", function(e) {
-        console.log("guess");
         entryJson = JSON.parse(e.data);
         var container = document.getElementById("guesses");
         var entry = document.createElement("div");
@@ -260,12 +238,10 @@ function initGame(ID){
         entry.appendChild(text);
         
         container.appendChild(entry);
-        console.log(e.data);
     });    
 
     function startTimer(){
         var i = maxTime;
-        console.log("max Time: "+maxTime);
         var timerID = setInterval(function() {
             $("#time").html(i-- + " secondi rimanenti");
         }, 1000);
