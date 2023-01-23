@@ -254,11 +254,9 @@ chatSource.addEventListener("message", function(e) {
 ```
 Apriamo una connessione verso il server, e aggiungiamo all'EventSource un listener all'evento message.
 
-## 5.3 Interfaccia Grafica
-
-## 5.4 Pagine
+## 5.3 Pagine
 In questa sezione verranno illustrate tutte le pagine web che compongono il sito e il loro funzionamento
-### 5.4.1 Signup
+### 5.3.1 Signup
 In questa pagina l'utente può registrarsi al sito, fornendo un username, password e conferma password tramite un form. In caso ci siano errori, verranno mostrati.
 
 Gli errori potrebbero essere:
@@ -315,7 +313,7 @@ Altrimenti viene costruito il div degli errori.
         });
 ```
 
-### 5.4.2 Login
+### 5.3.2 Login
 In questa pagina l'utente può effettuare il login al sito.
 Una volta premuto il bottone di registrazione parte l'esecuzione della funzione login(), che manda una richiesta HTTP POST allo script login.php.
 
@@ -349,7 +347,7 @@ if(password_verify($password1, $password2)){
 Per il controllo della password viene utilizzata la funzione built-in di php "password_verify()".
 Se il controllo va a buon fine viene settato a "success" il messaggio di ritorno verso il client, e vengono inizializzati i campi della sessione.
 
-### 5.4.3 userHome
+### 5.3.3 userHome
 A questa pagina si viene indirizzati dopo il login o la registrazione.
 Da qui è possibile:
 - Accedere alla pagina per creare una stanza
@@ -360,7 +358,7 @@ I bottoni per la creazione stanza e per la lista stanze si trovano ognuno dentro
 
 Il bottone logout invece ha un listener associato che manda una richiesta allo script logout.php e reindirizza la finestra alla pagina login.html
 
-### 5.4.4 roomList
+### 5.3.4 roomList
 Questa è la pagina con la lista di tutte le stanze aperte, a cui l'utente può accedere con un click.
 
 La lista delle stanze si trova all'interno di un div.
@@ -429,12 +427,12 @@ Lo script roomConnection.php controlla se la stanza è aperta e inserisce la cop
 
 Nel caso la stanza sia chiusa, viene tornato un messaggio d'errore, in caso contrario viene aperta la pagina della stanza cliccata.
 
-### 5.4.5 createRoom
+### 5.3.5 createRoom
 In questa pagina è presente un pulsante per tornare alla home, e un form per creare la stanza.
 
 L'utente deve fornire il nome della stanza, che deve essere non nullo e univoco. Al click del bottone parte una richiesta HTTP POST alla risorsa Room. In caso di successo, l'utente viene portato alla pagina della stanza appena creata, in caso contrario viene stampato un errore.
 
-### 5.4.6 room
+### 5.3.6 room
 Questa è la pagina principale in cui si trovano la chat, le impostazioni per la partita e in cui si svolge la partita stessa.
 
 Abbiamo il box della chat, in cui appaiono i nuovi messaggi con mittente e contenuto, con una barra per scriverne di nuovi. I messaggi arrivano a tutti i giocatori connessi alla stanza. Un utente vede tutti i messaggi che sono stati scritti nella stanza da quando si è connesso.
