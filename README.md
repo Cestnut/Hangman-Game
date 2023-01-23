@@ -42,7 +42,7 @@ Il gioco utilizza un database SQL per la memorizzazione dei dati. Verranno prese
 ## 4.2 Schema Relazionale
 ## 4.2.1 Word
 - ID_word (chiave primaria)
-- word (30 caratteri)
+- word (15 caratteri)
 
 ## 4.2.2 Role
 - name (chiave primaria)
@@ -89,7 +89,7 @@ ID_room e ID_user compongono la chiave primaria
 
 ## 4.2.9 Guess:
 - ID_Guess (chiave primaria)
-- word (30 caratteri)
+- word (15 caratteri)
 - timestamp
 - ID_game_participation (chiave esterna in game_participation)
 
@@ -545,13 +545,13 @@ Solo un admin può effettuare le seguenti richieste
 {
 word:word
 }</code>
-- massimo 30 caratteri, quelli successivi saranno ignorati
+- massimo 15 caratteri, se ne vengono forniti di più verrà tornato un messaggio d'errore
 
 <code>PUT /wordAPI.php/ID
 {
 word:word
 }
 </code>
-
+- massimo 15 caratteri, se ne vengono forniti di più verrà tornato un messaggio d'errore
 
 <code>DELETE /wordAPI.php/ID</code>

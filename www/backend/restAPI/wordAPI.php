@@ -24,6 +24,10 @@ if($method == "POST" || $method == "PUT"){
         $response['status'] = "not_valid";
         $response['payload'] = "You have to provide a word";
     }
+    else if(strlen($word) > 15){
+        $response['status'] = "not_valid";
+        $response['payload'] = "The word can have max 15 characters";
+    }
 }
 
 //only an admin can call any of the methods on word
