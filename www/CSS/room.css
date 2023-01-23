@@ -240,3 +240,13 @@
     border-left: 2px solid white;
     width: 70%;
 }
+
+.closedRoom{
+    background-color: rgba(137, 21, 21, 0.501);
+    padding: 5%;
+    margin: 5%;
+    color: white;
+    font-size: 500%;
+    text-align: center;
+    text-justify: center;
+}

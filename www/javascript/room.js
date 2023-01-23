@@ -19,7 +19,8 @@ roomStatusSource.addEventListener("newName", function(e) {
 roomStatusSource.addEventListener("closed", function(e) {
             chatSource.close()    
             roomStatusSource.close()
-            window.location = "../html/roomList.html";
+            $("#mainRow").text("STANZA CHIUSA");
+            $("#mainRow").addClass("closedRoom");
         });
 
 roomStatusSource.addEventListener("start", function(e) {
