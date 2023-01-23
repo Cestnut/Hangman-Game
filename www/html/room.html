@@ -18,15 +18,15 @@
 
         <div class="column">
             <div id="roomContainer">
-                <div class="pretitlechat">Impostazione partita:</div>
-                <form id="startGameForm" hidden class="form-container">
+                <div id="startGameForm" class="form-container" hidden>
+                    <div class="pretitlechat">Impostazione partita:</div>
                     <div id="error" class="errors"></div>
                     <label class="pretitle">Vite:</label>
-                    <input type="number" min="0" name="maxLives" class="input-style" placeholder="Numero di vite">
-                    <div class="pretitle">Durata turni:</div>
-                    <input type="number" min="0" name="maxTime" class="input-style" placeholder="Durata turni (secondi)">                
+                    <input type="number" min="0" name="maxLives" class="input-style" placeholder="Numero di vite" id="maxLives">
+                    <div class="pretitle">Durata turni (secondi):</div>
+                    <input type="number" min="0" name="maxTime" class="input-style" placeholder="Durata turni (secondi)" id="maxTime">                
                     <button type="button" id="startGame" class="button-style">Inizia</button>
-                </form>
+                </div>
             </div>
             <div id="gameContainer" hidden>
                 <div class="stats" id ="finishMessage"></div>
@@ -38,11 +38,10 @@
                 <div class="guesses-box" id="messageGuess">
                     <div id="guesses"></div>   
                 </div>
-                <form class="guess-input" id="guessForm">
-                    <label for="guess"></label>
+                <div class="guess-input" id="guessForm">
                     <input id="newGuess" contenteditable="true" type="text" name="guess">
                     <button class="guessbutton" type="button" id="sendGuess">Guess</button>
-                </form>
+                </div>
             </div>
         </div>
 

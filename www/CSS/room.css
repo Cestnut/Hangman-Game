@@ -303,7 +303,7 @@ body {
 
 .message{
     display: grid;
-    grid-template-columns: 45% 55%;
+    grid-template-columns: min-content min-content;
     grid-column-gap: 5px;
     padding: 10px;
     border-bottom: 1px solid white;
@@ -311,8 +311,7 @@ body {
 
 .username{
     font-weight: bold;
-    margin-right: 15px;
-    width: 30%;
+    width: min-content;
 }
 
 .content{
