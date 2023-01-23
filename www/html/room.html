@@ -6,19 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
     <script src="../javascript/room.js"></script>
+    <link rel="stylesheet" href="../CSS/general.css">
     <link rel="stylesheet" href="../CSS/room.css">
     <title>Room</title>
 </head>
 <body>
     <button type="button" id="leaveRoom" class="leave-button-style">Esci</button>
     <div class="pretitlestanza">Nome stanza:</div>
-    <div class="title" id="roomName"></div>
+    <div class="titleroom" id="roomName"></div>
 
     <div class="row">
 
         <div class="column">
             <div id="roomContainer">
-                <div id="startGameForm" class="form-container" hidden>
+                <div id="startGameForm" class="room-container" hidden>
                     <div class="pretitlechat">Impostazione partita:</div>
                     <div id="error" class="errors"></div>
                     <label class="pretitle">Vite:</label>
@@ -50,7 +51,7 @@
             <div class="pretitlechat">Chat giocatori:</div>
             <div class="chat-box" id="messages"></div>
             <div class="chat-form">
-                <div id="newMessage" contenteditable="true"></div>
+                <div class="formMessage" id="newMessage" contenteditable="true"></div>
                 <button class="button-style-invia" type="button" id="sendMessage">Invia</button>
             </div>
         </div>

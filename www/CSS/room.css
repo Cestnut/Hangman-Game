@@ -1,43 +1,30 @@
-body {
-    background-color: #121213 ;
-    font-family: Arial, sans-serif;
-}
 
-.button:hover {
-    background-color: lightseagreen;
-}
 
 
 .chat-box {
-    color: white; /* imposta il colore del testo su bianco */
-    height: 75%;  /* altezza  per il box */
+    color: white; 
+    height: 75%; 
     width: 70%;
     overflow-x: scroll;
-    overflow-y: scroll; /* permette solo di scorrere verticalmente */
-    border: 2px solid #818384; /* bordo del box */
-    border-radius: 10px; /* angoli arrotondati */
-    padding: 5px; /* padding interno */
+    overflow-y: scroll;
+    border: 2px solid #818384;
+    border-radius: 10px;
+    padding: 5px;
     margin: auto;
 }
-
-.username-chat {
-    color: #4CAF50; /* scegli un colore casuale */
-    font-weight: bold; /* rendi il testo in grassetto */
-    margin-right: 5px; /* aggiungi un margine a destra */
-    }
     
-    .stats {
+.stats {
     color: white; /* imposta il colore del testo su bianco */
     margin-left: 5px; /* aggiungi un margine a sinistra */
-    }
+}
 
 
 .chat-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    }
+}
 
-#newMessage {
+.formMessage {
  /* posiziona il form nella seconda riga */
     grid-column: 1 / 2; /* posiziona il form nella prima colonna */
     align-self: start; /* allinea il form in basso a sinistra */
@@ -76,22 +63,22 @@ body {
     width: 50%;
     height: 600px;
     padding: 10px;
-  }
-  .row:after {
+}
+.row:after {
     content: "";
     display: table;
     clear: both;
-  }
+}
 
-  @media screen and (max-width: 650px) {
+@media screen and (max-width: 650px) {
     /* CSS da applicare quando la larghezza dello schermo è inferiore o uguale a 650px */
     .column {
         float: none;
         width: 100%;
     }
- }
+}
 
-.form-container {
+.room-container {
     /* Allinea gli elementi in modo orizzontale*/
     display: flex; 
     flex-direction: column;
@@ -106,67 +93,32 @@ body {
     border: 2px solid #818384; /* colore del bordo del box e spessore */
 }
 
-/* Modifica l'aspetto degli input */
-.input-style {
-
-    padding: 12px 20px; /* Aggiunge un padding intorno al testo */
-    margin-bottom: 20px; /* Aggiunge un margine sotto l'input */
-    font-size: 16px; /* Aumenta la dimensione del font */
-    border: 2px solid rgb(215, 215, 215);  /* Rimuove il bordo */
-    border-radius: 4px;     /* Aggiunge un bordo arrotondato */
-    background-color: #121213; /* colore scuro simile al nero */
-    color: #fff; /* testo bianco */
-
-}
-
-/* Modifica l'aspetto del pulsante di invio */
-.button-style {
-    background-color: #4CAF50; /* Imposta il colore di sfondo su verde */
-    color: white; /* Imposta il colore del testo su bianco */
-    padding: 14px 20px; /* Aggiunge un padding intorno al testo */
-
-    /* Aggiunge un margine sotto, destra e sinistra il bottone */
-    margin-bottom: 20px;
-    margin-left: auto;
-    margin-right: auto; 
-
-    border: none;  /* Rimuove il bordo */
-    border-radius: 4px;  /* Aggiunge un bordo arrotondato */
-    cursor: pointer; /* Cambia il cursore del mouse */
-}
 
 .button-style-invia {
     background-color: #4CAF50; /* Imposta il colore di sfondo su verde */
     color: white; /* Imposta il colore del testo su bianco */
     padding: 14px 14px; /* Aggiunge un padding intorno al testo */
     line-height: 0px; /* l unico modo per centrare il testo , per non andare il conflitto con altro*/
+    margin-right: 28%;
+    width: 30%;
+    height: 20px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
     border: none;  /* Rimuove il bordo */
     border-radius: 4px;  /* Aggiunge un bordo arrotondato */
     cursor: pointer; /* Cambia il cursore del mouse */
-}
 
-.leave-button-style {
-    background-color: red; /* Imposta il colore di sfondo su verde */
-    color: white; /* Imposta il colore del testo su bianco */
-    padding: 14px 20px; /* Aggiunge un padding intorno al testo */
-    margin-bottom: 20px; /* Aggiunge un margine sotto il bottone */
-    border: none;  /* Rimuove il bordo */
-    border-radius: 4px;  /* Aggiunge un bordo arrotondato */
-    cursor: pointer; /* Cambia il cursore del mouse */
-}
-
-/* Modifica l'aspetto del link */
-.link-style {
-    font-size: 16px;/* Aumenta la dimensione del font */
-    color: #e5e5e5;/* Imposta il colore del testo su blu */
-    text-decoration: none;/* Rimuove la sottolineatura */
+    grid-column: 2 / 3; /* posiziona il bottone nella prima colonna */
+    align-self: start; /* allinea il bottone in basso a destra */
+    justify-self: end; /* allinea il bottone a destra rispetto al form */
 }
 
 .errors {
     color: red;
 }
 
-.title {
+.titleroom {
     text-align: center;
     font-size: 40px;
     font-weight: bold;
@@ -187,14 +139,6 @@ body {
     font-size: 15px;
     font-weight: bold;
     margin-bottom: 10px;
-
-    font-family: 'Karnak Condensed', sans-serif, Arial, Helvetica, sans-serif;
-    color: rgb(134, 134, 134);
-}
-.pretitle{
-    text-align: left;
-    font-size: 15px;
-    font-weight: bold;
 
     font-family: 'Karnak Condensed', sans-serif, Arial, Helvetica, sans-serif;
     color: rgb(134, 134, 134);
@@ -232,7 +176,7 @@ body {
     grid-template-columns: 1fr 1fr;
     }
 
-#newGuess {
+.newGuess-style {
  /* posiziona il form nella seconda riga */
     grid-column: 1 / 2; /* posiziona il form nella prima colonna */
     align-self: start; /* allinea il form in basso a sinistra */
@@ -261,16 +205,14 @@ body {
     grid-column: 2 / 3; /* posiziona il bottone nella prima colonna */
     align-self: start; /* allinea il bottone in basso a destra */
     justify-self: end; /* allinea il bottone a destra rispetto al form */
-}
-#sendGuess {
     background-color: #4CAF50; /* Imposta il colore di sfondo su verde */
-    color: white; /* Imposta il colore del testo su bianco */
     padding: 14px 6px; /* Aggiunge un padding intorno al testo */
     line-height: 0px; /* l unico modo per centrare il testo , per non andare il conflitto con altro*/
     border: none;  /* Rimuove il bordo */
     border-radius: 4px;  /* Aggiunge un bordo arrotondato */
     cursor: pointer; /* Cambia il cursore del mouse */
 }
+
 
 .letters-box{
     margin: 1%;
@@ -311,7 +253,10 @@ body {
 
 .username{
     font-weight: bold;
-    width: min-content;
+    margin-right: 15px;
+    width: 30%;
+    color: #19a8b2; 
+
 }
 
 .content{
