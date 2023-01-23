@@ -52,15 +52,17 @@ if (isUserInGame($userID, $gameID)){
             echo "data: ".$maxLives."\n\n";
         }
 
-        if($row['username'] != $turnUsername){
+        if($row['username'] != $turnUsername && $row['username'] != null){
             $turnUsername = $row['username'];
-            echo "event: turn\n";
-            echo "data: ".$turnUsername."\n\n";        
-            
             if($row['turnPlayerID'] == $userID){
-                echo "event: yourTurn\n";
-                echo "data:  \n\n";
+                $current = true;
             }
+            else{
+                $current = false;
+            }
+            $turnPayload = json_encode(array("current" => $current, "username" => $turnUsername));
+            echo "event: turn\n";
+            echo "data: ".$turnPayload."\n\n";
         }
 
         if(!isGameActive($gameID)){

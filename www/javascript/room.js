@@ -84,9 +84,8 @@ function leave(){
 
 function startGame(){
     $("#error").html("");
-    let form = $("#startGameForm");
-    let maxLives = form.find("[name='maxLives']").val(); 
-    let maxTime = form.find("[name='maxTime']").val(); 
+    let maxLives = $("#maxLives").val(); 
+    let maxTime = $("#maxTime").val(); 
     $.ajax({
         url: "../backend/startGame.php",
         method: "post",
@@ -120,8 +119,10 @@ function showGameForm(){
         }
       }).done(function(message) {
             if(message == 1){
-                var container = document.getElementById("startGameForm");
-                container.removeAttribute("hidden");
+                $("#startGameForm").show();
+            }
+            else{
+                $("#startGameForm").hide();
             }
         });
 }
@@ -147,8 +148,8 @@ function sendGuess(){
 
 function initGame(ID){
     var maxTime = 0;
-    document.getElementById("roomContainer").setAttribute("hidden", true);
-    document.getElementById("gameContainer").removeAttribute("hidden");
+    $("#roomContainer").hide();
+    $("#gameContainer").show();
 
     gameID = ID;
     gameSource = new EventSource('../backend/gameStatus.php?gameID='+gameID); 
@@ -192,10 +193,18 @@ function initGame(ID){
     
     var timerID = 0;
     gameSource.addEventListener("turn", function(e) {
-        $("#turn").html("Turno di " + e.data);
-         console.log(e.data);
-         
-         console.log("timerID: "+timerID);
+        $("#guessForm").hide()
+        $("#time").hide()
+        var payload = JSON.parse(e.data);
+        $("#turn").html("Turno di " + payload.username);
+
+        if(payload.current == true){
+            $("#guessForm").show();
+            $("#time").show();
+        }
+        console.log("payload");
+        console.log(e.data);
+        console.log("timerID: "+timerID);
     });
     
     gameSource.addEventListener("yourTurn", function(e) {
@@ -221,10 +230,11 @@ function initGame(ID){
         }
         setTimeout(function(){
             $("#finishMessage").html("");
-            document.getElementById("guesses").innerHTML = "";
-            document.getElementById("letters").innerHTML = "";
-            document.getElementById("gameContainer").setAttribute("hidden", true);
-            document.getElementById("roomContainer").removeAttribute("hidden");
+            $("#guesses").html("");
+            $("#letters").html("");
+            
+            $("#roomContainer").show();
+            $("#gameContainer").hide();
             gameSource.close();
             gameSource = 0;
             console.log(e.data);
@@ -237,7 +247,8 @@ function initGame(ID){
         entryJson = JSON.parse(e.data);
         var container = document.getElementById("guesses");
         var entry = document.createElement("div");
-    
+        entry.classList.add("message");
+
         var user = document.createElement("span");
         user.classList.add("username");
         user.innerHTML = entryJson.user;
