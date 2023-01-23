@@ -12,7 +12,6 @@ ignore_user_abort(true); //NECESSARY so in case the user is inactive, the destru
 
 if (isUserInRoom($userID, $roomID)){
     header('Content-Type: text/event-stream');
-    header('Cache-Control: no-cache');
     
     $roomName = "";
     $startEventSent = 0;

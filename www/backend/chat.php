@@ -11,7 +11,6 @@ session_write_close(); //NECESSARY so other scripts using this same sessione can
 if ($lastMessageTimestamp = isUserInRoom($userID, $roomID)){
     
     header('Content-Type: text/event-stream');
-    header('Cache-Control: no-cache');
 
     define('HEARTBEAT_PERIOD', 600); //after how many seconds send an heartbeat signal
     $heartbeatTime = time();
