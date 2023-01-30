@@ -22,7 +22,6 @@ function signup(){
             confirmPassword:confirmPassword
         })
       }).done(function(message) { //funzione che viene chiamata quando il server risponde. Il parametro message è la risposta del server
-            console.log(message);
             message = JSON.parse(message);
             if(message.status == "success"){
                 window.location = "../html/userHome.html";

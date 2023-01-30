@@ -7,14 +7,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
     <script src="../javascript/login.js"></script>
     <link rel="stylesheet" href="../CSS/general.css">
-    <link rel="stylesheet" href="../CSS/general.css">
     <title>Login</title>
 </head>
 <body class="body-site-signup">
     <div class="title">Login</div>
     <form name="loginForm" id="loginForm" class="form-container">
         <div id="errors" class = "errors"></div>
-        <input class="input-style" placeholder="username" type="text" name="username">
+        <label class="pretitle">Username:</label>
+        <input class="input-style" placeholder="username" max="15" type="text" name="username">
+        <label class="pretitle">Password:</label>
         <input class="input-style" placeholder="password" type="password" name="password">
         <button type="button" id="loginButton" class="button-style">Login</button>
         <a href="signup.html" class="link-style">Registrati</a>

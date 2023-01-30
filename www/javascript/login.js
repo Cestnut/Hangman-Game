@@ -19,7 +19,6 @@ function login(){
             password:password,
         }
       }).done(function(message) {
-        console.log(message);
             if(message == "success"){
                 window.location = "../html/userHome.html";
             }

@@ -17,7 +17,6 @@ function buildTable(){
             status:"open"
         }
       }).done(function(message) {
-            console.log(message);
             message = JSON.parse(message);
             if (message.status == "success"){
                 message.payload.forEach(function (room) {
@@ -45,7 +44,6 @@ function connectRoom(){
             roomID: roomID
         }
       }).done(function(message) {
-            console.log(message);
             message = JSON.parse(message);
             if (message.status == "success"){
                 window.location = "../html/room.html?roomID=" + roomID;

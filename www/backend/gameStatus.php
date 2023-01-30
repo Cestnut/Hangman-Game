@@ -13,8 +13,6 @@ if (isUserInGame($userID, $gameID)){
     
     header('Content-Type: text/event-stream');
     header('Cache-Control: no-cache');
-
-    define('HEARTBEAT_PERIOD', 120); //after how many seconds send an heartbeat signal
     $heartbeatTime = time();
 
     //tells the client how long a turn lasts
@@ -37,7 +35,7 @@ if (isUserInGame($userID, $gameID)){
     $maxLives = -1;
     $turnUsername = 0;
     while(1){
-        if (!(isRoomOpen($roomID)) || connection_aborted() || !(isUserInRoom($userID, $roomID))){ //returns true only if room closes or server knows the client disconnected. Namely after a message was sent and the client didn't answer.
+        if (!(isRoomOpen($roomID)) || !(isUserInRoom($userID, $roomID))){ //returns true only if room closes or server knows the client disconnected. Namely after a message was sent and the client didn't answer.
             leaveGame($gameID, $userID);
             break;
         }
@@ -52,15 +50,17 @@ if (isUserInGame($userID, $gameID)){
             echo "data: ".$maxLives."\n\n";
         }
 
-        if($row['username'] != $turnUsername){
+        if($row['username'] != $turnUsername && $row['username'] != null){
             $turnUsername = $row['username'];
-            echo "event: turn\n";
-            echo "data: ".$turnUsername."\n\n";        
-            
             if($row['turnPlayerID'] == $userID){
-                echo "event: yourTurn\n";
-                echo "data:  \n\n";
+                $current = true;
             }
+            else{
+                $current = false;
+            }
+            $turnPayload = json_encode(array("current" => $current, "username" => $turnUsername));
+            echo "event: turn\n";
+            echo "data: ".$turnPayload."\n\n";
         }
 
         if(!isGameActive($gameID)){
@@ -111,11 +111,6 @@ if (isUserInGame($userID, $gameID)){
             echo "data: ".json_encode($data)."\n\n";
             
             $lastGuessID = $row['ID_guess'];
-        }
-
-        if(time() > $heartbeatTime + HEARTBEAT_PERIOD){
-            echo ": heartbeat\n\n"; //Used by the webserver to know if the connection was closed by the client, in case new messages are never found
-            $heartbeatTime = time();
         }
 
         ob_flush(); //Necessary to send data to the php buffer ready to send. If this wasn't used, no data would arrive to client until the script stopped

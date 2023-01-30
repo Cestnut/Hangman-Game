@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Gen 15, 2023 alle 18:34
+-- Creato il: Gen 23, 2023 alle 23:29
 -- Versione del server: 10.4.27-MariaDB
 -- Versione PHP: 8.1.12
 
@@ -107,22 +107,6 @@ CREATE TABLE `room` (
   `ID_host` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dump dei dati per la tabella `room`
---
-
-INSERT INTO `room` (`ID_room`, `name`, `ID_host`) VALUES
-(8, 'lampo', 8),
-(17, 'addwfwa', 8),
-(18, 'addwfwawfwafa', 8),
-(20, 'addwfwawfwyhuiafa', 8),
-(24, 'addwfwawfwyhdfdfuiafa', 8),
-(25, 'prova', 8),
-(26, 'suca', 8),
-(27, 'NUOVISSIMA STANZA', 8),
-(28, 'stanza numero 1000', 8),
-(29, 'stanza numero 10000', 8);
-
 -- --------------------------------------------------------
 
 --
@@ -134,24 +118,6 @@ CREATE TABLE `room_partecipation` (
   `ID_room` int(11) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dump dei dati per la tabella `room_partecipation`
---
-
-INSERT INTO `room_partecipation` (`ID_user`, `ID_room`, `timestamp`) VALUES
-(8, 18, '2023-01-10 13:05:50'),
-(8, 20, '2023-01-10 13:05:50'),
-(8, 24, '2023-01-10 13:05:50'),
-(8, 25, '2023-01-10 13:05:50'),
-(8, 26, '2023-01-10 13:05:50'),
-(8, 27, '2023-01-15 13:12:46'),
-(8, 28, '2023-01-15 13:13:51'),
-(9, 24, '2023-01-10 13:05:50'),
-(10, 17, '2023-01-10 13:05:50'),
-(10, 24, '2023-01-10 13:05:50'),
-(11, 18, '2023-01-14 16:11:18'),
-(11, 28, '2023-01-15 16:30:30');
 
 -- --------------------------------------------------------
 
@@ -171,12 +137,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`ID_user`, `username`, `password`, `role`) VALUES
-(8, 'username', '$2y$10$q.9PhsXhhkcyqcPiK8aqb.9laEGS43c4s5JKyQGz3LxBsgIE7tVJa', 'admin'),
-(9, 'account', '$2y$10$D4mGQ76Ty5hFAQJlnwUVXOYxtaQ9O2gzH87NQH6I5kr16iqn5SX9.', 'user'),
-(10, 'nuovoutente', '$2y$10$RH5.cbUM7F9Ij9LpPP/JRufhPSgyrpT2NWJ.Vd4gWbOr8EF8P3QXG', 'user'),
-(11, 'pincopallo', '$2y$10$47n1PNKmJQPmTDNQBeufb.FGTEZSaYwdVo2Q/WOD.uTzvRGeEE6Mu', 'user'),
-(12, 'forse', '$2y$10$kBMHbQqtpdACnEvkfzxwtuqIZxlKFoz37WqhB2wLWUFT466HI08/.', 'user'),
-(14, 'ciaooooo', '$2y$10$P4CcsQbJ37S5zYR3r55pjOtVqf.wzwaqC4DLjGtO94Lv8Jz85Nn7.', 'user');
+(8, 'username', '$2y$10$q.9PhsXhhkcyqcPiK8aqb.9laEGS43c4s5JKyQGz3LxBsgIE7tVJa', 'admin');
 
 -- --------------------------------------------------------
 
@@ -190,15 +151,6 @@ CREATE TABLE `word` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dump dei dati per la tabella `word`
---
-
-INSERT INTO `word` (`word`, `ID_word`) VALUES
-('ciao', 4),
-('importante', 7),
-('lecito', 8);
-
---
 -- Indici per le tabelle scaricate
 --
 
@@ -207,24 +159,24 @@ INSERT INTO `word` (`word`, `ID_word`) VALUES
 --
 ALTER TABLE `game`
   ADD PRIMARY KEY (`ID_game`),
-  ADD KEY `ID_room` (`ID_room`),
   ADD KEY `ID_word` (`ID_word`),
-  ADD KEY `turnPlayerID` (`turnPlayerID`);
+  ADD KEY `game_ibfk_1` (`ID_room`),
+  ADD KEY `game_ibfk_3` (`turnPlayerID`);
 
 --
 -- Indici per le tabelle `game_partecipation`
 --
 ALTER TABLE `game_partecipation`
   ADD PRIMARY KEY (`ID_game_partecipation`),
-  ADD KEY `ID_user` (`ID_user`),
-  ADD KEY `ID_game` (`ID_game`);
+  ADD KEY `game_partecipation_ibfk_1` (`ID_user`),
+  ADD KEY `game_partecipation_ibfk_2` (`ID_game`);
 
 --
 -- Indici per le tabelle `guess`
 --
 ALTER TABLE `guess`
   ADD PRIMARY KEY (`ID_guess`),
-  ADD KEY `ID_game_partecipation` (`ID_game_partecipation`);
+  ADD KEY `guess_ibfk_1` (`ID_game_partecipation`);
 
 --
 -- Indici per le tabelle `message`
@@ -232,7 +184,7 @@ ALTER TABLE `guess`
 ALTER TABLE `message`
   ADD PRIMARY KEY (`ID_message`),
   ADD KEY `ID_user` (`ID_user`),
-  ADD KEY `ID_room` (`ID_room`);
+  ADD KEY `message_ibfk_2` (`ID_room`);
 
 --
 -- Indici per le tabelle `role`
@@ -253,7 +205,7 @@ ALTER TABLE `room`
 --
 ALTER TABLE `room_partecipation`
   ADD PRIMARY KEY (`ID_user`,`ID_room`),
-  ADD KEY `ID_room` (`ID_room`);
+  ADD KEY `room_partecipation_ibfk_2` (`ID_room`);
 
 --
 -- Indici per le tabelle `user`
@@ -278,43 +230,43 @@ ALTER TABLE `word`
 -- AUTO_INCREMENT per la tabella `game`
 --
 ALTER TABLE `game`
-  MODIFY `ID_game` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `ID_game` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=241;
 
 --
 -- AUTO_INCREMENT per la tabella `game_partecipation`
 --
 ALTER TABLE `game_partecipation`
-  MODIFY `ID_game_partecipation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=352;
+  MODIFY `ID_game_partecipation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=688;
 
 --
 -- AUTO_INCREMENT per la tabella `guess`
 --
 ALTER TABLE `guess`
-  MODIFY `ID_guess` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
+  MODIFY `ID_guess` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=421;
 
 --
 -- AUTO_INCREMENT per la tabella `message`
 --
 ALTER TABLE `message`
-  MODIFY `ID_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `ID_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
 
 --
 -- AUTO_INCREMENT per la tabella `room`
 --
 ALTER TABLE `room`
-  MODIFY `ID_room` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `ID_room` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT per la tabella `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `ID_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT per la tabella `word`
 --
 ALTER TABLE `word`
-  MODIFY `ID_word` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID_word` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Limiti per le tabelle scaricate
@@ -324,43 +276,34 @@ ALTER TABLE `word`
 -- Limiti per la tabella `game`
 --
 ALTER TABLE `game`
-  ADD CONSTRAINT `game_ibfk_1` FOREIGN KEY (`ID_room`) REFERENCES `room` (`ID_room`),
-  ADD CONSTRAINT `game_ibfk_2` FOREIGN KEY (`ID_word`) REFERENCES `word` (`ID_word`),
-  ADD CONSTRAINT `game_ibfk_3` FOREIGN KEY (`turnPlayerID`) REFERENCES `user` (`ID_user`);
+  ADD CONSTRAINT `game_ibfk_1` FOREIGN KEY (`ID_room`) REFERENCES `room` (`ID_room`) ON DELETE CASCADE,
+  ADD CONSTRAINT `game_ibfk_3` FOREIGN KEY (`turnPlayerID`) REFERENCES `user` (`ID_user`) ON DELETE SET NULL;
 
 --
 -- Limiti per la tabella `game_partecipation`
 --
 ALTER TABLE `game_partecipation`
-  ADD CONSTRAINT `game_partecipation_ibfk_1` FOREIGN KEY (`ID_user`) REFERENCES `user` (`ID_user`),
-  ADD CONSTRAINT `game_partecipation_ibfk_2` FOREIGN KEY (`ID_game`) REFERENCES `game` (`ID_game`);
+  ADD CONSTRAINT `game_partecipation_ibfk_1` FOREIGN KEY (`ID_user`) REFERENCES `user` (`ID_user`) ON DELETE CASCADE,
+  ADD CONSTRAINT `game_partecipation_ibfk_2` FOREIGN KEY (`ID_game`) REFERENCES `game` (`ID_game`) ON DELETE CASCADE;
 
 --
 -- Limiti per la tabella `guess`
 --
 ALTER TABLE `guess`
-  ADD CONSTRAINT `guess_ibfk_1` FOREIGN KEY (`ID_game_partecipation`) REFERENCES `game_partecipation` (`ID_game_partecipation`);
+  ADD CONSTRAINT `guess_ibfk_1` FOREIGN KEY (`ID_game_partecipation`) REFERENCES `game_partecipation` (`ID_game_partecipation`) ON DELETE CASCADE;
 
 --
 -- Limiti per la tabella `message`
 --
 ALTER TABLE `message`
-  ADD CONSTRAINT `message_ibfk_1` FOREIGN KEY (`ID_user`) REFERENCES `user` (`ID_user`),
-  ADD CONSTRAINT `message_ibfk_2` FOREIGN KEY (`ID_room`) REFERENCES `room` (`ID_room`);
-
---
--- Limiti per la tabella `room`
---
-ALTER TABLE `room`
-  ADD CONSTRAINT `room_ibfk_1` FOREIGN KEY (`ID_host`) REFERENCES `user` (`ID_user`);
+  ADD CONSTRAINT `message_ibfk_2` FOREIGN KEY (`ID_room`) REFERENCES `room` (`ID_room`) ON DELETE CASCADE;
 
 --
 -- Limiti per la tabella `room_partecipation`
 --
 ALTER TABLE `room_partecipation`
-  ADD CONSTRAINT `room_partecipation_ibfk_1` FOREIGN KEY (`ID_user`) REFERENCES `user` (`ID_user`),
-  ADD CONSTRAINT `room_partecipation_ibfk_2` FOREIGN KEY (`ID_room`) REFERENCES `room` (`ID_room`),
-  ADD CONSTRAINT `room_partecipation_ibfk_3` FOREIGN KEY (`ID_room`) REFERENCES `room` (`ID_room`);
+  ADD CONSTRAINT `room_partecipation_ibfk_1` FOREIGN KEY (`ID_user`) REFERENCES `user` (`ID_user`) ON DELETE CASCADE,
+  ADD CONSTRAINT `room_partecipation_ibfk_2` FOREIGN KEY (`ID_room`) REFERENCES `room` (`ID_room`) ON DELETE CASCADE;
 
 --
 -- Limiti per la tabella `user`

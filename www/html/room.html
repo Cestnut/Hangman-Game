@@ -7,40 +7,56 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
     <script src="../javascript/room.js"></script>
     <link rel="stylesheet" href="../CSS/general.css">
+    <link rel="stylesheet" href="../CSS/room.css">
     <title>Room</title>
 </head>
 <body>
     <button type="button" id="leaveRoom" class="leave-button-style">Esci</button>
-    
-    <div id="roomName"></div>
+    <div class="pretitlestanza">Nome stanza:</div>
+    <div class="titleroom" id="roomName"></div>
 
-    <div id="chat">
-        <div id="messages"></div>
-        <div id="newMessage" contenteditable="true"></div>
-        <button type="button" id="sendMessage">Invia</button>
+    <div class="row" class="" id="mainRow">
+        <div class="column">
+            <div id="roomContainer">
+                <div id="startGameForm" class="room-container" hidden>
+                    <div class="pretitlechat">Impostazione partita:</div>
+                    <div id="error" class="errors"></div>
+                    <label class="pretitle">Vite:</label>
+                    <input type="number" min="0" name="maxLives" class="input-style" placeholder="Numero di vite" id="maxLives">
+                    <div class="pretitle">Durata turni (secondi):</div>
+                    <input type="number" min="0" name="maxTime" class="input-style" placeholder="Durata turni (secondi)" id="maxTime">                
+                    <button type="button" id="startGame" class="button-style">Inizia</button>
+                </div>
+            </div>
+            <div id="gameContainer" hidden>
+                <div class="stats" id ="finishMessage"></div>
+                <div class="stats" id="lives"></div>
+                <div class="stats" id="turn"></div>
+                <div class="stats" id="time"></div>
+                <div class="letters-box" id="letters"></div>
+                <div class="pretitle">Tentativi:</div>
+                <div class="guesses-box">
+                    <div id="guesses"></div>   
+                </div>
+                <div class="guess-input" id="guessForm">
+                    <input class = "newGuess-style" id="newGuess" contenteditable="true" type="text" name="guess">
+                    <button class="guessbutton" type="button" id="sendGuess">Guess</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="column">
+            <div class="pretitlechat">Chat giocatori:</div>
+            <div class="chat-box" id="messages"></div>
+            <div class="chat-form">
+                <div class="formMessage" id="newMessage" contenteditable="true"></div>
+                <button class="button-style-invia" type="button" id="sendMessage">Invia</button>
+            </div>
+        </div>
+
+
     </div>
 
-    <div id="roomContainer">
-        <form id="startGameForm" hidden class="form-container">
-            <div id="error" class="errors"></div>
-            <input type="number" min="0" name="maxLives" class="input-style" placeholder="Vite">
-            <input type="number" min="0" name="maxTime" class="input-style" placeholder="Durata turni (secondi)">                
-            <button type="button" id="startGame" class="button-style">Inizia</button>
-        </form>
-    </div>
-
-    <div id="gameContainer" hidden>
-        <div id ="finishMessage"></div>
-        <div id="lives"></div>
-        <div id="turn"></div>
-        <div id="time"></div>
-        <div id="letters"></div>
-        <div id="guesses"></div>
-        <form id="guessForm">
-            <label for="guess">Guess</label>
-            <input type="text" name="guess">
-            <button type="button" id="sendGuess">Guess</button>
-        </form>
-    </div>
 </body>
 </html>

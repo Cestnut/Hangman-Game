@@ -30,21 +30,16 @@ if(isUserRoomHost($userID, $roomID) && !isRoomActive($roomID)){
         $result["status"] = "not_valid";
         $result["payload"] = "The input must be numbers";
     }
-/*
-    header("Connection: close\r\n");
-    ignore_user_abort(true);
-    
-    if (!ob_get_level()){ //opens a new buffer in case there are none
-        ob_start();
-    }
-    
+
+    //Questa parte di codice serve a disconnettere il client, in modo che la partita possa svolgersi senza lasciare occupata la connessione col client
+    header("Connection: close\r\n");    
     echo json_encode($result);
     $size = ob_get_length(); //Returns the length of the output buffer contents, what was written and not sent to the client yet
     header("Content-Length: $size");
     ob_flush();
     flush();
-*/
     echo json_encode($result);
+    
     if($result['status'] == "success"){
         try{
             $wordArray = randomWord(); //First element is the ID, the second is the actual word
