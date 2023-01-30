@@ -1,6 +1,6 @@
-# 1 Idea yo
+# 1 Idea
 
-Il progetto prevede la creazione di una versione online del gioco dell'impiccato. I giocatori avranno a disposizione un certo numero di tentativi per indovinare una parola scelta dal server, tra quelle presenti in una lista predefinita. Dopo ogni tentativo, il giocatore verrà informato su quanto la propria risposta si avvicini alla soluzione esatta.
+Il progetto prevede la creazione di un gioco ispirato a quello dell'impiccato. I giocatori avranno a disposizione un certo numero di tentativi per indovinare una parola scelta dal server, tra quelle presenti in una lista predefinita. Dopo ogni tentativo, il giocatore verrà informato su quanto la propria risposta si avvicini alla soluzione esatta.
 
 ## 1.1 Modalità di gioco
 I giocatori condividono Vite e Indizi, a turno provano a indovinare la parola. Ogni turno ha una durata limitata di tempo.
@@ -8,7 +8,7 @@ I giocatori condividono Vite e Indizi, a turno provano a indovinare la parola. O
 ## 1.2 Stanze
 ### 1.2.1 Gestione
 Gli utenti hanno la possibilità di creare una nuova stanza o unirsi a una esistente dal menù principale. 
-Durante la creazione di una stanza, è richiesto di inserire un nome per identificarla (suggerito "nomeutente's room").
+Durante la creazione di una stanza, è richiesto di inserire un nome per identificarla
 
 Il creatore di una stanza all'interno della stanza, prima di iniziare una partita deve fornire:
 - tempo massimo per il turno di ogni giocatore, tra 1 e 120 secondi.
@@ -23,15 +23,16 @@ Un utente può unirsi alla stanza mentre una partita è in corso, ma non parteci
 ### 1.2.2 Chat
 All'interno di ogni stanza di gioco, è disponibile una chat testuale che i giocatori potranno utilizzare per comunicare durante la partita, ogni messaggio è accompagnato dal nome del mittente.
 
-# 2 Risorse
+# 2 Gioco
+All'inizio della partita, viene stabilito casualmente un ordine tra i giocatori. Ogni turno, ciascun giocatore cercherà di indovinare la parola segreta e in caso di errore verrà persa una vita per tutti i giocatori. 
+
+Se il tempo per il turno scade o il giocatore si disconnette, si passerà al giocatore successivo e verrà persa una vita.
+
+# 3 Risorse
 Saranno implementate REST API per interagire con le seguenti risorse:
 - **User**
 - **Room**
 - **Wordlist**
-
-# 3 Gioco
-Durante la partita, viene stabilito un ordine tra i giocatori. Ogni turno, ciascun giocatore cercherà di indovinare la parola segreta. In caso di errore verrà persa una vita per tutti i giocatori. Se il tempo per il turno scade, si passerà semplicemente al giocatore successivo.
-
 
 # 4 Database
 Il gioco utilizza un database SQL per la memorizzazione dei dati. Verranno presentati in seguito il diagramma ER (Entità-relazione) e lo schema relazionale.
@@ -42,7 +43,7 @@ Il gioco utilizza un database SQL per la memorizzazione dei dati. Verranno prese
 ## 4.2 Schema Relazionale
 ## 4.2.1 Word
 - ID_word (chiave primaria)
-- word (30 caratteri)
+- word (15 caratteri)
 
 ## 4.2.2 Role
 - name (chiave primaria)
@@ -89,7 +90,7 @@ ID_room e ID_user compongono la chiave primaria
 
 ## 4.2.9 Guess:
 - ID_Guess (chiave primaria)
-- word (30 caratteri)
+- word (15 caratteri)
 - timestamp
 - ID_game_participation (chiave esterna in game_participation)
 
@@ -230,7 +231,6 @@ Prenderemo come esempio la gestione della chat, analizzando prima il lato server
 ```php
     . . .
     header('Content-Type: text/event-stream');
-    header('Cache-Control: no-cache');
     . . .
 ```
 Vengono effettuati i dovuti controlli (in questo caso controllare se l'utente è connesso alla stanza) e viene poi aperto lo stream.
@@ -254,11 +254,9 @@ chatSource.addEventListener("message", function(e) {
 ```
 Apriamo una connessione verso il server, e aggiungiamo all'EventSource un listener all'evento message.
 
-## 5.3 Interfaccia Grafica
-
-## 5.4 Pagine
+## 5.3 Pagine
 In questa sezione verranno illustrate tutte le pagine web che compongono il sito e il loro funzionamento
-### 5.4.1 Signup
+### 5.3.1 Signup
 In questa pagina l'utente può registrarsi al sito, fornendo un username, password e conferma password tramite un form. In caso ci siano errori, verranno mostrati.
 
 Gli errori potrebbero essere:
@@ -315,7 +313,7 @@ Altrimenti viene costruito il div degli errori.
         });
 ```
 
-### 5.4.2 Login
+### 5.3.2 Login
 In questa pagina l'utente può effettuare il login al sito.
 Una volta premuto il bottone di registrazione parte l'esecuzione della funzione login(), che manda una richiesta HTTP POST allo script login.php.
 
@@ -349,7 +347,7 @@ if(password_verify($password1, $password2)){
 Per il controllo della password viene utilizzata la funzione built-in di php "password_verify()".
 Se il controllo va a buon fine viene settato a "success" il messaggio di ritorno verso il client, e vengono inizializzati i campi della sessione.
 
-### 5.4.3 userHome
+### 5.3.3 userHome
 A questa pagina si viene indirizzati dopo il login o la registrazione.
 Da qui è possibile:
 - Accedere alla pagina per creare una stanza
@@ -360,7 +358,7 @@ I bottoni per la creazione stanza e per la lista stanze si trovano ognuno dentro
 
 Il bottone logout invece ha un listener associato che manda una richiesta allo script logout.php e reindirizza la finestra alla pagina login.html
 
-### 5.4.4 roomList
+### 5.3.4 roomList
 Questa è la pagina con la lista di tutte le stanze aperte, a cui l'utente può accedere con un click.
 
 La lista delle stanze si trova all'interno di un div.
@@ -429,12 +427,12 @@ Lo script roomConnection.php controlla se la stanza è aperta e inserisce la cop
 
 Nel caso la stanza sia chiusa, viene tornato un messaggio d'errore, in caso contrario viene aperta la pagina della stanza cliccata.
 
-### 5.4.5 createRoom
+### 5.3.5 createRoom
 In questa pagina è presente un pulsante per tornare alla home, e un form per creare la stanza.
 
 L'utente deve fornire il nome della stanza, che deve essere non nullo e univoco. Al click del bottone parte una richiesta HTTP POST alla risorsa Room. In caso di successo, l'utente viene portato alla pagina della stanza appena creata, in caso contrario viene stampato un errore.
 
-### 5.4.6 room
+### 5.3.6 room
 Questa è la pagina principale in cui si trovano la chat, le impostazioni per la partita e in cui si svolge la partita stessa.
 
 Abbiamo il box della chat, in cui appaiono i nuovi messaggi con mittente e contenuto, con una barra per scriverne di nuovi. I messaggi arrivano a tutti i giocatori connessi alla stanza. Un utente vede tutti i messaggi che sono stati scritti nella stanza da quando si è connesso.
@@ -545,13 +543,13 @@ Solo un admin può effettuare le seguenti richieste
 {
 word:word
 }</code>
-- massimo 30 caratteri, quelli successivi saranno ignorati
+- massimo 15 caratteri, se ne vengono forniti di più verrà tornato un messaggio d'errore
 
 <code>PUT /wordAPI.php/ID
 {
 word:word
 }
 </code>
-
+- massimo 15 caratteri, se ne vengono forniti di più verrà tornato un messaggio d'errore
 
 <code>DELETE /wordAPI.php/ID</code>
