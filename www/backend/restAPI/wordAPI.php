@@ -94,9 +94,7 @@ if(!isset($response['status']) && $_SESSION['role'] == "admin"){
         }
     }
 }
-else{
 $response['status'] = "denied";
-}
 
 echo json_encode($response);
 
